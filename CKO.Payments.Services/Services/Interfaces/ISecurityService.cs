@@ -1,0 +1,8 @@
+﻿namespace CKO.Payments.BL.Services.Interfaces
+{
+    public interface ISecurityService
+    {
+        string GenerateAuthToken(string merchantName, string merchantEmail, string merchantSecret);
+        bool IsTokenValid(string token, string merchantSecret);
+    }
+}

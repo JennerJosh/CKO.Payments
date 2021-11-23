@@ -1,0 +1,28 @@
+﻿using CKO.Payments.DAL.Repositories.Interfaces;
+using CKO.Payments.Data;
+using CKO.Payments.Data.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CKO.Payments.DAL.Repositories
+{
+    internal class MerchantRepository : BaseRepository<Merchant>, IMerchantRepository
+    {
+        public MerchantRepository(CkoContext context) : base(context)
+        {
+
+        }
+
+        public Merchant GetMerchant(Guid id) =>
+            base.GetById(id);
+
+        public void AddMerchant(Merchant merchant)
+        {
+            base.Add(merchant);
+            base.SaveChanges();
+        }
+    }
+}

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKO.Payments.Services", "CKO.Payments.Services\CKO.Payments.Services.csproj", "{F46E45E2-7700-44B9-B436-DF7AF498AC12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKO.Payments.BL", "CKO.Payments.Services\CKO.Payments.BL.csproj", "{F46E45E2-7700-44B9-B436-DF7AF498AC12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKO.Payments.DAL", "CKO.Payments.DAL\CKO.Payments.DAL.csproj", "{0BD3875F-165E-45AE-9461-E32F6BEFC0EA}"
 EndProject
