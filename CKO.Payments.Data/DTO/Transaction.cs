@@ -13,9 +13,16 @@ namespace CKO.Payments.Data.DTO
 
         public decimal Amount { get; set; }
 
-        public ICollection<LineItem> LineItems { get; set; }
+        public int Status { get; set; }
+
+        public string StatusMessage { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public virtual Customer Customer { get; set; }
+        public virtual Merchant Merchant { get; set; }
+        public ICollection<LineItem> LineItems { get; set; }
+
 
     }
 }

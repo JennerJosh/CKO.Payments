@@ -16,5 +16,8 @@ namespace CKO.Payments.Data.DTO
 
         [MaxLength(320)]
         public string Email { get; set; }
+
+        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual Card Card { get; set; }
     }
 }

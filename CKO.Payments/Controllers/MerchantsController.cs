@@ -34,6 +34,11 @@ namespace CKO.Payments.Controllers
                 var merchant = (Merchant)HttpContext.Items["Merchant"];
                 var model = _merchantsService.GetMerchantFromEmail(merchant.Email);
 
+                // For security we don't want to reveal Merchant Secret
+                // Last 4 characters of the Secret will be revealed
+                // This is to allow Merchant to confirm similiarity to Secret they have on file
+                model.MaskSecret();
+
                 return ResponseModel.GetSuccessResponse(model);
             }
             catch (Exception exc)
@@ -52,7 +57,7 @@ namespace CKO.Payments.Controllers
                 var newMerchant = new Merchant(model.Name, model.Email);
                 newMerchant = _merchantsService.RegisterMerchant(newMerchant);
 
-                // Return Merchant Secret for user to keep for Authentication
+                // Return Merchant Secret for user to store
                 return ResponseModel.GetSuccessResponse(newMerchant.Secret);
             }
             catch (Exception exc)

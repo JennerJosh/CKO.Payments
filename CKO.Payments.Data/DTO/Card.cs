@@ -24,5 +24,7 @@ namespace CKO.Payments.Data.DTO
 
         [MaxLength(512)]
         public string ExpiryYear { get; set; }
+
+        public virtual Customer Customer { get; set; }
     }
 }

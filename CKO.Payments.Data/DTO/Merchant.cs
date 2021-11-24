@@ -16,5 +16,7 @@ namespace CKO.Payments.Data.DTO
 
         [MaxLength(512)]
         public string MerchantSecret { get; set; }
+
+        public virtual ICollection<Transaction> Transactions { get;}
     }
 }

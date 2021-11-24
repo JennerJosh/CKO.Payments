@@ -1,6 +1,5 @@
-﻿using CKO.Payments.BL.Helpers;
-using System;
-using System.Collections.Generic;
+﻿using CKO.Payments.BL.Extensions;
+using CKO.Payments.BL.Helpers;
 using System.Text.RegularExpressions;
 
 namespace CKO.Payments.BL.Models
@@ -47,6 +46,11 @@ namespace CKO.Payments.BL.Models
         public bool IsSecretValid(string secret)
         {
             return string.Equals(Secret, secret);
+        }
+
+        public void MaskSecret()
+        {
+            Secret = Secret.Mask();
         }
 
         private bool IsNameValid()
