@@ -10,5 +10,6 @@ namespace CKO.Payments.BL.Services.Interfaces
     public interface IMerchantsService
     {
         Merchant RegisterMerchant(Merchant merchant);
+        Merchant GetMerchantFromEmail(string email);
     }
 }

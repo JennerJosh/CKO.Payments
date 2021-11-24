@@ -19,6 +19,12 @@ namespace CKO.Payments.DAL.Repositories
         public Merchant GetMerchant(Guid id) =>
             base.GetById(id);
 
+        public Merchant GetMerchantByEmail(string email) =>
+            base.GetQuery().FirstOrDefault(x => x.Email == email);
+
+        public bool IsMerchantRegistered(string email) =>
+            base.GetQuery().Any(x => x.Email == email);
+
         public void AddMerchant(Merchant merchant)
         {
             base.Add(merchant);

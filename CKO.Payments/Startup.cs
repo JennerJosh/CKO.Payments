@@ -7,6 +7,7 @@ using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL;
 using CKO.Payments.DAL.Interfaces;
 using CKO.Payments.Data;
+using CKO.Payments.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -54,6 +55,8 @@ namespace CKO.Payments
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<JwtAuthenticationMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -11,5 +11,7 @@ namespace CKO.Payments.DAL.Repositories.Interfaces
     {
         Merchant GetMerchant(Guid id);
         void AddMerchant(Merchant merchant);
+        Merchant GetMerchantByEmail(string email);
+        bool IsMerchantRegistered(string email);
     }
 }

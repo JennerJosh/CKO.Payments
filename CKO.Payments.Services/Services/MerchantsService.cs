@@ -1,4 +1,5 @@
-﻿using CKO.Payments.BL.Mappers;
+﻿using CKO.Payments.BL.Exceptions.Merchants;
+using CKO.Payments.BL.Mappers;
 using CKO.Payments.BL.Models;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL.Interfaces;
@@ -18,7 +19,11 @@ namespace CKO.Payments.BL.Services
         {
             // Check to see if Merchant is valid before saving
             if (!merchant.IsValid())
-                throw new Exception("Test");
+                throw new InvalidMerchantException("Name or Email is invalid, please check and try again");
+
+            // Check to see if Merchant is already registed
+            if (HasMerchantPreviouslyRegistered(merchant.Email))
+                throw new AlreadyRegisteredException($"There is already a merchant account with this email: {merchant.Email}");
 
             // If secret has not been set, generate new secret
             if (string.IsNullOrEmpty(merchant.Secret))
@@ -34,5 +39,18 @@ namespace CKO.Payments.BL.Services
 
             return merchant;
         }
+
+        public Merchant GetMerchantFromEmail(string email)
+        {
+            var merchant = _unitOfWork.merchantRepository.GetMerchantByEmail(email);
+
+            if (merchant == null)
+                throw new NotRegisteredException($"Merchant with the email {email} could not be found, please register");
+
+            return MerchantMapper.GetBLMerchant(merchant);
+        }
+
+        public bool HasMerchantPreviouslyRegistered(string email) =>
+            _unitOfWork.merchantRepository.IsMerchantRegistered(email);
     }
 }

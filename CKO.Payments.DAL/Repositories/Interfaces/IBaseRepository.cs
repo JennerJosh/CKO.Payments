@@ -9,6 +9,7 @@ namespace CKO.Payments.DAL.Repositories.Interfaces
         void Delete(T entity);
         void DeleteRange(IEnumerable<T> entities);
         T GetById(Guid id);
+        IQueryable<T> GetQuery();
         void SaveChanges();
     }
 }

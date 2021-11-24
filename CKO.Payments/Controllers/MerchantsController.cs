@@ -1,8 +1,9 @@
 ﻿using CKO.Payments.BL.Models;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.Models.Merchants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using AuthorizeAttribute = CKO.Payments.Attributes.AuthorizeAttribute;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,6 +11,7 @@ namespace CKO.Payments.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MerchantsController : ControllerBase
     {
         private readonly IMerchantsService _merchantsService;
@@ -19,22 +21,17 @@ namespace CKO.Payments.Controllers
             _merchantsService = merchantsService;
         }
 
-        //// GET: api/<MerchantsController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        // GET: api/<MerchantsController>
+        [HttpGet]
+        public Merchant Get()
+        {
+            var merchant = (Merchant)HttpContext.Items["Merchant"];
+            return _merchantsService.GetMerchantFromEmail(merchant.Email);
+        }
 
-        //// GET api/<MerchantsController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        // POST api/<MerchantsController>
+        //POST api/<MerchantsController>
         [HttpPost]
+        [AllowAnonymous]
         public string Post([FromBody] RegisterMerchantModel model)
         {
             var newMerchant = new Merchant(model.Name, model.Email);
@@ -42,17 +39,5 @@ namespace CKO.Payments.Controllers
 
             return newMerchant.Secret;
         }
-
-        //// PUT api/<MerchantsController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<MerchantsController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

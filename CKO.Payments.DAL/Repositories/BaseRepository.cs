@@ -38,6 +38,10 @@ namespace CKO.Payments.DAL.Repositories
         public virtual T GetById(Guid id) =>
             _entities.Find(id);
 
+        public virtual IQueryable<T> GetQuery() =>
+            _entities.AsQueryable();
+
+
         public virtual void SaveChanges() =>
             _context.SaveChanges();
 

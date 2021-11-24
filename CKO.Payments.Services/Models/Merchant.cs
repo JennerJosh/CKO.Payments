@@ -44,6 +44,11 @@ namespace CKO.Payments.BL.Models
             Secret = SecurityHelper.GenerateHash(Email, salt: null);
         }
 
+        public bool IsSecretValid(string secret)
+        {
+            return string.Equals(Secret, secret);
+        }
+
         private bool IsNameValid()
         {
             if (string.IsNullOrEmpty(Name) || Name.Length > NAME_MAX_LENGTH)

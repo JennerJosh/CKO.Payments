@@ -19,7 +19,8 @@ namespace CKO.Payments.BL.Services
             {
                 new Claim(ClaimTypes.Name, merchantName),
                 new Claim(ClaimTypes.Email, merchantEmail),
-                new Claim(ClaimTypes.Expiration, TimeSpan.FromDays(1).ToString(), ClaimValueTypes.DaytimeDuration),
+                new Claim("exp", DateTimeOffset.Now.AddHours(12).ToUnixTimeSeconds().ToString()),
+                new Claim("iat", DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
             };
 
             payload.AddClaims(claims);
@@ -28,7 +29,7 @@ namespace CKO.Payments.BL.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public bool IsTokenValid(string token, string merchantSecret)
+        public bool IsTokenValid(string token, string merchantSecret, out SecurityToken securityToken)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(merchantSecret));
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -40,11 +41,15 @@ namespace CKO.Payments.BL.Services
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    IssuerSigningKey = securityKey
+                    IssuerSigningKey = securityKey,
+                    ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
+
+                securityToken = validatedToken;
             }
             catch
             {
+                securityToken = null;
                 return false;
             }
 
