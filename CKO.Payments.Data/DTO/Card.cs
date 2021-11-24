@@ -17,9 +17,6 @@ namespace CKO.Payments.Data.DTO
         public string Number { get; set; }
 
         [MaxLength(512)]
-        public string Cvv { get; set; }
-
-        [MaxLength(512)]
         public string ExpiryMonth { get; set; }
 
         [MaxLength(512)]

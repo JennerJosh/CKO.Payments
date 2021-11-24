@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CKO.Payments.Data.DTO
 {
@@ -13,6 +14,9 @@ namespace CKO.Payments.Data.DTO
 
         public decimal Amount { get; set; }
 
+        [MaxLength(3)]
+        public string Currency { get; set; }
+
         public int Status { get; set; }
 
         public string StatusMessage { get; set; }
@@ -20,7 +24,9 @@ namespace CKO.Payments.Data.DTO
         public DateTime CreatedDate { get; set; }
 
         public virtual Customer Customer { get; set; }
+
         public virtual Merchant Merchant { get; set; }
+
         public ICollection<LineItem> LineItems { get; set; }
 
 

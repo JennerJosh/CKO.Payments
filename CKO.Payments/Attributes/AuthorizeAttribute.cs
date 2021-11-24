@@ -15,7 +15,7 @@ namespace CKO.Payments.Attributes
             if (context.ActionDescriptor.EndpointMetadata.Any(x => x is IAllowAnonymous))
                 return;
 
-            var merchant = (Merchant)context.HttpContext.Items["Merchant"];
+            var merchant = (MerchantModel)context.HttpContext.Items["Merchant"];
             if (merchant == null)
             {
                 context.Result = new JsonResult(new { message = "User is not authorized" })

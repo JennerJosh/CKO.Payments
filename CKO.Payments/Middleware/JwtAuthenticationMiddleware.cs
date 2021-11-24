@@ -41,10 +41,11 @@ namespace CKO.Payments.Middleware
                 {
                     var jwtToken = (JwtSecurityToken)securityToken;
 
+                    var secret = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     var name = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
                     var email = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email).Value;
 
-                    context.Items["Merchant"] = new Merchant(name, email);
+                    context.Items["Merchant"] = new MerchantModel(name, email, secret);
                 }
 
             }

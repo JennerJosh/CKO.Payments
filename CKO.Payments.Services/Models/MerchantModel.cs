@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace CKO.Payments.BL.Models
 {
-    public class Merchant
+    public class MerchantModel
     {
         private const int NAME_MAX_LENGTH = 255;
         private const int EMAIL_MAX_LENGTH = 255;
@@ -15,16 +15,20 @@ namespace CKO.Payments.BL.Models
         public string Email { get; set; }
         public string Secret { get; set; }
 
-        public Merchant(string name, string email)
+        public MerchantModel(string name, string email)
         {
             Name = name;
             Email = email;
         }
 
-        public Merchant(Guid id, string name, string email, string secret) : this(name, email)
+        public MerchantModel(string name, string email, string secret) : this(name, email)
+        {
+            Secret = secret;
+        }
+
+        public MerchantModel(Guid id, string name, string email, string secret) : this(name, email, secret)
         {
             Id = id;
-            Secret = secret;
         }
 
         public bool IsValid()

@@ -10,7 +10,7 @@ namespace CKO.Payments.BL.Mappers
 {
     public static class MerchantMapper
     {
-        public static DTOModels.Merchant GetDTOMerchant(BLModels.Merchant merchant)
+        public static DTOModels.Merchant GetDTOMerchant(BLModels.MerchantModel merchant)
         {
             return new DTOModels.Merchant()
             {
@@ -21,9 +21,9 @@ namespace CKO.Payments.BL.Mappers
             };
         }
 
-        public static BLModels.Merchant GetBLMerchant(DTOModels.Merchant merchant)
+        public static BLModels.MerchantModel GetBLMerchant(DTOModels.Merchant merchant)
         {
-            return new BLModels.Merchant(merchant.Id, merchant.Name, merchant.Email, merchant.MerchantSecret);
+            return new BLModels.MerchantModel(merchant.Id, merchant.Name, merchant.Email, merchant.MerchantSecret);
         }
     }
 }

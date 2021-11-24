@@ -4,6 +4,7 @@ using CKO.Payments.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CKO.Payments.Data.Migrations
 {
     [DbContext(typeof(CkoContext))]
-    partial class CkoContextModelSnapshot : ModelSnapshot
+    [Migration("20211124123150_Transaction.Currency")]
+    partial class TransactionCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,58 +23,6 @@ namespace CKO.Payments.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CKO.Payments.Data.DTO.Address", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("County")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Line1")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("Line2")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("Line3")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("PostCode")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("Town")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
-
-                    b.ToTable("Address");
-                });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Card", b =>
                 {
@@ -82,6 +32,11 @@ namespace CKO.Payments.Data.Migrations
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Cvv")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("ExpiryMonth")
                         .IsRequired()
@@ -229,17 +184,6 @@ namespace CKO.Payments.Data.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("CKO.Payments.Data.DTO.Address", b =>
-                {
-                    b.HasOne("CKO.Payments.Data.DTO.Customer", "Customer")
-                        .WithOne("Address")
-                        .HasForeignKey("CKO.Payments.Data.DTO.Address", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("CKO.Payments.Data.DTO.Card", b =>
                 {
                     b.HasOne("CKO.Payments.Data.DTO.Customer", "Customer")
@@ -283,9 +227,6 @@ namespace CKO.Payments.Data.Migrations
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Customer", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
-
                     b.Navigation("Card")
                         .IsRequired();
 

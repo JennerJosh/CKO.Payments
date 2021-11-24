@@ -17,7 +17,7 @@ namespace CKO.Payments.BL.Services
         /// <param name="merchantName">Name of the Merchant</param>
         /// <param name="merchantEmail">Email of the Merchant</param>
         /// <returns>Returns a new token string</returns>
-        public string GenerateAuthToken(string merchantName, string merchantEmail)
+        public string GenerateAuthToken(string merchantName, string merchantEmail, string merchantSecret)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var secret = new SymmetricSecurityKey(Encoding.Default.GetBytes(TOKEN_SECRET));
@@ -26,6 +26,7 @@ namespace CKO.Payments.BL.Services
 
             var claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, merchantSecret),
                 new Claim(ClaimTypes.Name, merchantName),
                 new Claim(ClaimTypes.Email, merchantEmail),
                 new Claim("exp", DateTimeOffset.Now.AddHours(TOKEN_LIFETIME).ToUnixTimeSeconds().ToString()),

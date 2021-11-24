@@ -11,7 +11,7 @@ namespace CKO.Payments.Data.DTO
         [MaxLength(100)]
         public string FirstName { get; set; }
 
-        [MaxLength (100)]
+        [MaxLength(100)]
         public string LastName { get; set; }
 
         [MaxLength(320)]
@@ -19,5 +19,6 @@ namespace CKO.Payments.Data.DTO
 
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual Card Card { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

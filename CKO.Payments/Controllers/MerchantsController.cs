@@ -31,7 +31,7 @@ namespace CKO.Payments.Controllers
         {
             try
             {
-                var merchant = (Merchant)HttpContext.Items["Merchant"];
+                var merchant = (MerchantModel)HttpContext.Items["Merchant"];
                 var model = _merchantsService.GetMerchantFromEmail(merchant.Email);
 
                 // For security we don't want to reveal Merchant Secret
@@ -54,7 +54,7 @@ namespace CKO.Payments.Controllers
         {
             try
             {
-                var newMerchant = new Merchant(model.Name, model.Email);
+                var newMerchant = new MerchantModel(model.Name, model.Email);
                 newMerchant = _merchantsService.RegisterMerchant(newMerchant);
 
                 // Return Merchant Secret for user to store
