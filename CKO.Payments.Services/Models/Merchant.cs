@@ -7,14 +7,14 @@ namespace CKO.Payments.BL.Models
 {
     public class Merchant
     {
+        private const int NAME_MAX_LENGTH = 255;
+        private const int EMAIL_MAX_LENGTH = 255;
+        private const string EMAIL_REGEX = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Secret { get; set; }
-
-        private const int NAME_MAX_LENGTH = 255;
-        private const int EMAIL_MAX_LENGTH = 255;
-        private const string EMAIL_REGEX = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
         public Merchant(string name, string email)
         {

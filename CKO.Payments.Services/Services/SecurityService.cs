@@ -8,10 +8,19 @@ namespace CKO.Payments.BL.Services
 {
     public class SecurityService : ISecurityService
     {
-        public string GenerateAuthToken(string merchantName, string merchantEmail, string merchantSecret)
+        private const string TOKEN_SECRET = "X]TDHxkMM$`t^c/tC`l[f}3uie,QD,7}}rG]*M2bZZLKuT+6V`D?P]Sh$JV^5*q";
+        private const int TOKEN_LIFETIME = 24;
+
+        /// <summary>
+        /// Generate new JWT token for users to authenticate requests into Gateway
+        /// </summary>
+        /// <param name="merchantName">Name of the Merchant</param>
+        /// <param name="merchantEmail">Email of the Merchant</param>
+        /// <returns>Returns a new token string</returns>
+        public string GenerateAuthToken(string merchantName, string merchantEmail)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var secret = new SymmetricSecurityKey(Encoding.Default.GetBytes(merchantSecret));
+            var secret = new SymmetricSecurityKey(Encoding.Default.GetBytes(TOKEN_SECRET));
             var header = new JwtHeader(new SigningCredentials(secret, SecurityAlgorithms.HmacSha256Signature, SecurityAlgorithms.Sha256Digest));
             var payload = new JwtPayload();
 
@@ -19,7 +28,7 @@ namespace CKO.Payments.BL.Services
             {
                 new Claim(ClaimTypes.Name, merchantName),
                 new Claim(ClaimTypes.Email, merchantEmail),
-                new Claim("exp", DateTimeOffset.Now.AddHours(12).ToUnixTimeSeconds().ToString()),
+                new Claim("exp", DateTimeOffset.Now.AddHours(TOKEN_LIFETIME).ToUnixTimeSeconds().ToString()),
                 new Claim("iat", DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
             };
 
@@ -29,9 +38,15 @@ namespace CKO.Payments.BL.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public bool IsTokenValid(string token, string merchantSecret, out SecurityToken securityToken)
+        /// <summary>
+        /// Validates whether a supplied token is valid
+        /// </summary>
+        /// <param name="token">JWT token that was previously generated</param>
+        /// <param name="securityToken">Validated Security token containing claims</param>
+        /// <returns></returns>
+        public bool IsTokenValid(string token, out SecurityToken securityToken)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(merchantSecret));
+            var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TOKEN_SECRET));
             var tokenHandler = new JwtSecurityTokenHandler();
 
             try

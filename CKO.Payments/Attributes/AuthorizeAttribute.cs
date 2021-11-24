@@ -1,8 +1,10 @@
 ﻿using CKO.Payments.BL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.Linq;
 
 namespace CKO.Payments.Attributes
 {
@@ -10,6 +12,9 @@ namespace CKO.Payments.Attributes
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            if (context.ActionDescriptor.EndpointMetadata.Any(x => x is IAllowAnonymous))
+                return;
+
             var merchant = (Merchant)context.HttpContext.Items["Merchant"];
             if (merchant == null)
             {

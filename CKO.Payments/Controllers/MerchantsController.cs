@@ -1,9 +1,13 @@
 ﻿using CKO.Payments.BL.Models;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.Models.Merchants;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AuthorizeAttribute = CKO.Payments.Attributes.AuthorizeAttribute;
+using CKO.Payments.BL.Exceptions.Merchants;
+using Microsoft.AspNetCore.Http;
+using CKO.Payments.Models.Response;
+using System;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,21 +27,38 @@ namespace CKO.Payments.Controllers
 
         // GET: api/<MerchantsController>
         [HttpGet]
-        public Merchant Get()
+        public ResponseModel Get()
         {
-            var merchant = (Merchant)HttpContext.Items["Merchant"];
-            return _merchantsService.GetMerchantFromEmail(merchant.Email);
+            try
+            {
+                var merchant = (Merchant)HttpContext.Items["Merchant"];
+                var model = _merchantsService.GetMerchantFromEmail(merchant.Email);
+
+                return ResponseModel.GetSuccessResponse(model);
+            }
+            catch (Exception exc)
+            {
+                return ResponseModel.GetErrorResponse(exc);
+            }
         }
 
-        //POST api/<MerchantsController>
+        //POST api/<MerchantsController> 
         [HttpPost]
         [AllowAnonymous]
-        public string Post([FromBody] RegisterMerchantModel model)
+        public ResponseModel Post([FromBody] RegisterMerchantModel model)
         {
-            var newMerchant = new Merchant(model.Name, model.Email);
-            newMerchant = _merchantsService.RegisterMerchant(newMerchant);
+            try
+            {
+                var newMerchant = new Merchant(model.Name, model.Email);
+                newMerchant = _merchantsService.RegisterMerchant(newMerchant);
 
-            return newMerchant.Secret;
+                // Return Merchant Secret for user to keep for Authentication
+                return ResponseModel.GetSuccessResponse(newMerchant.Secret);
+            }
+            catch (Exception exc)
+            {
+                return ResponseModel.GetErrorResponse(exc);
+            }
         }
     }
 }

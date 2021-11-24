@@ -26,19 +26,18 @@ namespace CKO.Payments.Middleware
         public async Task Invoke(HttpContext context)
         {
             var token = context.Request.Headers["x-api-token"].FirstOrDefault();
-            var secret = context.Request.Headers["x-api-secret"].FirstOrDefault();
-
-            if (token != null && secret != null)
-                ValidateAndAddToContext(context, token, secret);
+        
+            if (token != null)
+                ValidateAndAddToContext(context, token);
 
             await _next(context);
         }
 
-        private void ValidateAndAddToContext(HttpContext context, string token, string secret)
+        private void ValidateAndAddToContext(HttpContext context, string token)
         {
             try
             {
-                if (_securityService.IsTokenValid(token, secret, out SecurityToken securityToken))
+                if (_securityService.IsTokenValid(token, out SecurityToken securityToken))
                 {
                     var jwtToken = (JwtSecurityToken)securityToken;
 
@@ -51,6 +50,7 @@ namespace CKO.Payments.Middleware
             }
             catch
             {
+                // If error occurs during validation we can assume token is not valid
             }
         }
     }

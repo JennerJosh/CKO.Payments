@@ -15,6 +15,14 @@ namespace CKO.Payments.BL.Services
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Register new Merchant
+        /// This will validate the model then save it into the database
+        /// </summary>
+        /// <param name="merchant"></param>
+        /// <returns>The merchant object with the DB Id returned with it</returns>
+        /// <exception cref="InvalidMerchantException">This occurs when either the Name or Email of the merchant is invalid</exception>
+        /// <exception cref="AlreadyRegisteredException">This occurs when the email of the Merchant is already in the database</exception>
         public Merchant RegisterMerchant(Merchant merchant)
         {
             // Check to see if Merchant is valid before saving
@@ -32,6 +40,7 @@ namespace CKO.Payments.BL.Services
             // Map BL merchant to the DTO object
             var DtoObject = MerchantMapper.GetDTOMerchant(merchant);
 
+            // Add merchant to DB
             _unitOfWork.merchantRepository.AddMerchant(DtoObject);
 
             // Set the Id of the BL object to be the DTO Id
@@ -40,16 +49,28 @@ namespace CKO.Payments.BL.Services
             return merchant;
         }
 
+
+        /// <summary>
+        /// Find a Merchant record by their registered email
+        /// </summary>
+        /// <param name="email">Email of the Merchant</param>
+        /// <returns>The found Merchant record</returns>
+        /// <exception cref="NotRegisteredException">This is thrown when the Merchant cannot be found</exception>
         public Merchant GetMerchantFromEmail(string email)
         {
             var merchant = _unitOfWork.merchantRepository.GetMerchantByEmail(email);
 
             if (merchant == null)
-                throw new NotRegisteredException($"Merchant with the email {email} could not be found, please register");
+                throw new NotRegisteredException($"Merchant with the email '{email}' could not be found, please register and try again");
 
             return MerchantMapper.GetBLMerchant(merchant);
         }
 
+        /// <summary>
+        /// Check to see if the Merchant's email is already in the database
+        /// </summary>
+        /// <param name="email">Email of the Merchant</param>
+        /// <returns>A true or false value representing whether the email has been found</returns>
         public bool HasMerchantPreviouslyRegistered(string email) =>
             _unitOfWork.merchantRepository.IsMerchantRegistered(email);
     }

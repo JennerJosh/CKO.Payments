@@ -2,7 +2,7 @@
 
 namespace CKO.Payments.BL.Exceptions.Merchants
 {
-    internal class NotRegisteredException : Exception
+    public class NotRegisteredException : Exception
     {
         public NotRegisteredException()
         {
