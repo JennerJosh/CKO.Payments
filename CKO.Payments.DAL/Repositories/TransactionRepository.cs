@@ -10,5 +10,17 @@ namespace CKO.Payments.DAL.Repositories
         {
 
         }
+
+        public void AddTransaction(Transaction transaction)
+        {
+            base.Add(transaction);
+            base.SaveChanges();
+        }
+
+        public void UpdateTransaction(Transaction transaction)
+        {
+            base.Update(transaction);
+            base.SaveChanges();
+        }
     }
 }

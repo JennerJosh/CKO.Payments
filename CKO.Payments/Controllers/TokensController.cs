@@ -36,7 +36,7 @@ namespace CKO.Payments.Controllers
 
                 if (merchant.IsSecretValid(model.Secret))
                 {
-                    var token = _securityService.GenerateAuthToken(merchant.Name, merchant.Email, merchant.Secret);
+                    var token = _securityService.GenerateAuthToken(merchant.Id, merchant.Name, merchant.Email, merchant.Secret);
                     return ResponseModel.GetSuccessResponse(token);
                 }
                 else

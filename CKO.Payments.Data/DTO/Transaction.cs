@@ -10,7 +10,7 @@ namespace CKO.Payments.Data.DTO
 
         public Guid MerchantId { get; set; }
 
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
 
         public decimal Amount { get; set; }
 
@@ -19,15 +19,17 @@ namespace CKO.Payments.Data.DTO
 
         public int Status { get; set; }
 
-        public string StatusMessage { get; set; }
+        public string? StatusMessage { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
+
+        public virtual Card? Card { get; set; }
 
         public virtual Merchant Merchant { get; set; }
 
-        public ICollection<LineItem> LineItems { get; set; }
+        public ICollection<LineItem>? LineItems { get; set; }
 
 
     }

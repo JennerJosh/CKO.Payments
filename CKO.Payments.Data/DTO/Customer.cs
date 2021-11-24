@@ -18,7 +18,6 @@ namespace CKO.Payments.Data.DTO
         public string Email { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
-        public virtual Card Card { get; set; }
         public virtual Address Address { get; set; }
     }
 }

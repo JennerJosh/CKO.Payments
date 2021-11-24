@@ -38,7 +38,7 @@ namespace CKO.Payments.BL.Services
                 merchant.GenerateSecret();
 
             // Map BL merchant to the DTO object
-            var DtoObject = MerchantMapper.GetDTOMerchant(merchant);
+            var DtoObject = MerchantMapper.MapToMerchant(merchant);
 
             // Add merchant to DB
             _unitOfWork.MerchantRepository.AddMerchant(DtoObject);
@@ -63,7 +63,7 @@ namespace CKO.Payments.BL.Services
             if (merchant == null)
                 throw new NotRegisteredException($"Merchant with the email '{email}' could not be found, please register and try again");
 
-            return MerchantMapper.GetBLMerchant(merchant);
+            return MerchantMapper.MapToMerchantModel(merchant);
         }
 
         /// <summary>

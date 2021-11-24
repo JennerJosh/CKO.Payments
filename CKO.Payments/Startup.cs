@@ -40,6 +40,7 @@ namespace CKO.Payments
 
             services.AddTransient<ISecurityService, SecurityService>();
             services.AddTransient<IMerchantsService, MerchantsService>();
+            services.AddTransient<ITransactionsService, TransactionsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

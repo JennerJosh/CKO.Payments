@@ -19,11 +19,11 @@ namespace CKO.Payments.Controllers
     [Authorize]
     public class PaymentsController : ControllerBase
     {
-        private readonly IMerchantsService _merchantsService;
+        private readonly ITransactionsService _transactionsService;
 
-        public PaymentsController(IMerchantsService merchantsService)
+        public PaymentsController(ITransactionsService transactionsService)
         {
-            _merchantsService = merchantsService;
+            _transactionsService = transactionsService;
         }
 
         // GET: api/<MerchantsController>
@@ -51,7 +51,7 @@ namespace CKO.Payments.Controllers
         //POST api/<MerchantsController> 
         [HttpPost]
         [Route("intent")]
-        public ResponseModel Post([FromBody] PaymentIntentModel model)
+        public ResponseModel PaymentIntent([FromBody] PaymentIntentModel model)
         {
             try
             {
@@ -59,11 +59,38 @@ namespace CKO.Payments.Controllers
 
                 if (model.IsSecretValid(merchant))
                 {
-                    return ResponseModel.GetSuccessResponse(model.GetTransactionModel());
+                    var transaction = _transactionsService.AddTransactionStub(model.GetTransactionModel(merchant));
+                    model.SetTransactionId(transaction.Id);
+
+                    return ResponseModel.GetSuccessResponse(model);
                 }
                 else
                 {
                     return ResponseModel.GetErrorResponse(StatusCodes.Status400BadRequest, "Invalid Merchant secret");
+                }
+            }
+            catch (Exception exc)
+            {
+                return ResponseModel.GetErrorResponse(exc);
+            }
+        }
+
+        [HttpPost]
+        [Route("process")]
+        public ResponseModel ProcessPayment([FromBody] ProcessPaymentModel model)
+        {
+            try
+            {
+                var merchant = (MerchantModel)HttpContext.Items["Merchant"];
+
+                if (model.IsSecretValid(merchant))
+                {
+                    var response = _transactionsService.ProcessTransaction(model.GetTransactionModel(merchant));
+                    return ResponseModel.GetSuccessResponse(response); ;
+                }
+                else
+                {
+                    return ResponseModel.GetErrorResponse(StatusCodes.Status400BadRequest, "Invalid request, please check and try again");
                 }
             }
             catch (Exception exc)

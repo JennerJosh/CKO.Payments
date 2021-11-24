@@ -4,6 +4,7 @@ using CKO.Payments.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CKO.Payments.Data.Migrations
 {
     [DbContext(typeof(CkoContext))]
-    partial class CkoContextModelSnapshot : ModelSnapshot
+    [Migration("20211124144618_Transaction.Card")]
+    partial class TransactionCard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,6 +54,7 @@ namespace CKO.Payments.Data.Migrations
                         .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("Line3")
+                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 

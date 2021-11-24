@@ -7,8 +7,9 @@ namespace CKO.Payments.BL.Enums
         {
             Pending = 1,
             Processing,
+            Approved,
             Settled,
-            Failed
+            Declined
         }
     }
 }

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BLModels = CKO.Payments.BL.Models;
-using DTOModels = CKO.Payments.Data.DTO;
+﻿using CKO.Payments.BL.Models;
+using CKO.Payments.Data.DTO;
 
 namespace CKO.Payments.BL.Mappers
 {
     public static class MerchantMapper
     {
-        public static DTOModels.Merchant GetDTOMerchant(BLModels.MerchantModel merchant)
+        public static Merchant MapToMerchant(MerchantModel merchant)
         {
-            return new DTOModels.Merchant()
+            return new()
             {
                 Id = merchant.Id,
                 Email = merchant.Email,
@@ -21,9 +16,9 @@ namespace CKO.Payments.BL.Mappers
             };
         }
 
-        public static BLModels.MerchantModel GetBLMerchant(DTOModels.Merchant merchant)
+        public static MerchantModel MapToMerchantModel(Merchant merchant)
         {
-            return new BLModels.MerchantModel(merchant.Id, merchant.Name, merchant.Email, merchant.MerchantSecret);
+            return new MerchantModel(merchant.Id, merchant.Name, merchant.Email, merchant.MerchantSecret);
         }
     }
 }

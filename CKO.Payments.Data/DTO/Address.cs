@@ -20,7 +20,7 @@ namespace CKO.Payments.Data.DTO
         public string Line2 { get; set; }
 
         [MaxLength(512)]
-        public string Line3 { get; set; }
+        public string? Line3 { get; set; }
 
         [MaxLength(512)]
         public string Town { get; set; }

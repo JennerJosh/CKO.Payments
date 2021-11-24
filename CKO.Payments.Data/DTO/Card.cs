@@ -8,7 +8,7 @@ namespace CKO.Payments.Data.DTO
     {
         public Guid Id { get; set; }
 
-        public Guid CustomerId { get; set; }
+        public Guid TransactionId { get; set; }
 
         [MaxLength(512)]
         public string Name { get; set; }
@@ -22,6 +22,6 @@ namespace CKO.Payments.Data.DTO
         [MaxLength(512)]
         public string ExpiryYear { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public virtual Transaction Transaction { get; set; }
     }
 }

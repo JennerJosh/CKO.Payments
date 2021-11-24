@@ -4,6 +4,7 @@ using CKO.Payments.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CKO.Payments.Data.Migrations
 {
     [DbContext(typeof(CkoContext))]
-    partial class CkoContextModelSnapshot : ModelSnapshot
+    [Migration("20211124142627_Transaction.NullableColumns")]
+    partial class TransactionNullableColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,6 +54,7 @@ namespace CKO.Payments.Data.Migrations
                         .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("Line3")
+                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
@@ -79,6 +82,9 @@ namespace CKO.Payments.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ExpiryMonth")
                         .IsRequired()
                         .HasMaxLength(512)
@@ -99,12 +105,9 @@ namespace CKO.Payments.Data.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId")
+                    b.HasIndex("CustomerId")
                         .IsUnique();
 
                     b.ToTable("Cards");
@@ -240,13 +243,13 @@ namespace CKO.Payments.Data.Migrations
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Card", b =>
                 {
-                    b.HasOne("CKO.Payments.Data.DTO.Transaction", "Transaction")
+                    b.HasOne("CKO.Payments.Data.DTO.Customer", "Customer")
                         .WithOne("Card")
-                        .HasForeignKey("CKO.Payments.Data.DTO.Card", "TransactionId")
+                        .HasForeignKey("CKO.Payments.Data.DTO.Card", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Transaction");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.LineItem", b =>
@@ -282,6 +285,9 @@ namespace CKO.Payments.Data.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
+                    b.Navigation("Card")
+                        .IsRequired();
+
                     b.Navigation("Transactions");
                 });
 
@@ -292,8 +298,6 @@ namespace CKO.Payments.Data.Migrations
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Transaction", b =>
                 {
-                    b.Navigation("Card");
-
                     b.Navigation("LineItems");
                 });
 #pragma warning restore 612, 618

@@ -3,6 +3,7 @@ using CKO.Payments.BL.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -41,11 +42,13 @@ namespace CKO.Payments.Middleware
                 {
                     var jwtToken = (JwtSecurityToken)securityToken;
 
-                    var secret = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                    var id = Guid.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                     var name = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
                     var email = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                    var secret = jwtToken.Claims.First(x => x.Type == "secret").Value;
+                    
 
-                    context.Items["Merchant"] = new MerchantModel(name, email, secret);
+                    context.Items["Merchant"] = new MerchantModel(id, name, email, secret);
                 }
 
             }
