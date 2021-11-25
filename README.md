@@ -46,6 +46,17 @@ This will create the database against the local database server on your machine,
 
 Once the database has been built you can run this project by using the built-in debugger in visual studio, alternatively you can use the 'dotnet run' command against the CKO.Payments project in your terminal
 
+## Design assumptions
+
+### Customer
+
+When putting through a transaction there must be a customer linked to it, the main reason for this is that there must be a billing address linked to the trasaction, at first I was thinking that we could check for existing Customers by email and instead of having duplicate customer records we would link each customer to each transaction as it came in, but after considering what a transaction is I decided against this. When i thought about the transaction, each transaction is unique, the only characteristic of the transaction that needs to reference back to a single item is the Merchant, this is because a Merchant can have multiple transactions, whereas a customer is just a component of the transaction. by taking this approach it does have the negative impact that we will likely end up with duplicate customer records in our database, which could end up being something that needs to be changed later, but for now we should assume that each transaction and it's components are individual only linking back to the merchant who made the transaction.
+
+#### Issue with this idea
+
+If we look at this from the PayPal perspective, then every merchant can put a transaction through but every customer can see their transactions, if we ever needed to implement a system where a customer could review their transactions then we would find ourselves in a position where we would need to coalate the data together, rather than it all being linked to a single customer record.
+
+In our system at the moment there is no way for a customer to interact with their data so this isn't an issue for now, but depending on the roadmap this could end up being an issue.
 
 ## Potential issues / Future changes
 
@@ -60,4 +71,13 @@ This utlimately means that the onus is on the client to ensure their token is ke
 An additional way we could help keep tokens secure when the application is deployed is by enforcing all requests are https (this would be done regardless) this would ensure any request sniffing would not expose the token.
 In the future I would prefer to use OAuth 2.0 and have each request validated at the time of the request, this would mean a slower execution time for the requests but the added security would make up for the miliseconds it would add.
 
+### Request Validation
+
+At the moment I have implemented simple validation that checks that the supplied model is in a format we expect/can use. when there is an error we sned a message back to the client saying there is an error, a future implementation would be to provided a more details response so that the client can see what failed validation and why. 
+
+This would have the preceived benefit that it would make the API easier to code against as it would help the client to establish a good working model. It would also allow the client to easily dianoigse any potential issues they may get in the future either through their own system, or any potential changes we may release that would change the expected model.
+
+### Logging 
+
+For this execise I did not implement logging in the way I think would be beneficial moving forward, to start with I would implement a basic log system that would output to a service like DataDog, as well as using an exception tracking solution like Sentry, whilst you could use DataDog for both, it is not the best way to use it as it does not capture stacktraces and other key elements that would be needed to diagnosing issues. It does however provide a snapshot of the events that occured up to the point of failure.
 
