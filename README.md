@@ -5,13 +5,13 @@ This project is a payment processing api built for Checkout
 ## Overview
 
 This is built as a AWS Serverless application, this sits on top of the AWS lambda and CloudFormation resources. 
-There are a few reasons why I choose to go down this route, The primary reason is that by in being serverless is can be scaled both vertically and horizontally, there is also the benefit that ir reduces the amount of DevOps required for setup and maintenance of the application.
+There are a few reasons why I choose to go down this route, The primary reason is that by in being serverless is can be scaled both vertically and horizontally, there is also the benefit that it reduces the amount of DevOps required for setup and maintenance of the application.
 
 When deciding on which type of project to go with I did initially think using AWS Lambda, the idea behind this was to use SQS/SNS and to have individual functions for each Http endpoint; 
 I decided against using this approach due to the need to return a response the clients request. We could still use Lambda functions but we would not be able to use events as this would then push into a queue for processing, meaning that the client would not get a response to the initial request and instead need to be notified when it has been actioned.
 In the end I landed on building a more traditional API as it will action requests as they come in, because it is still serverless it can scale to be able to keep up with high volume periods.
 
-I decided to use AWS over Azure mainly as I had never used it before so it felt like a challenge to learn more about the services and what they can offer. Unfortuntely due to going with a traditional API instead of functions it meant that the leverage I could get from AWS was minimal, it would be the same between Azure and AWS in this instance as it could be deployed as an App Service which would also provided the scalability.
+I decided to use AWS over a more familiar option is mainly because I have never used it before so it felt like it would be more of a challenge to learn more about the services and what they can offer. Unfortuntely due to going with AWS Serverless with .NET Core Web API instead of functions it meant that the opportunity to experience what AWS has to offer/challenges it would pose was not there, it would be the same between Azure and AWS in this instance as it could be deployed as an App Service which would also provide the scalability AWS Serverless does.
 
 The structure of the solution is as follows
 
