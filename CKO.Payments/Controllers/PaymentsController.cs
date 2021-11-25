@@ -74,7 +74,7 @@ namespace CKO.Payments.Controllers
                 return ResponseModel.GetErrorResponse(exc);
             }
         }
-
+        
         [HttpPost]
         [Route("process")]
         public ResponseModel ProcessPayment([FromBody] ProcessPaymentModel model)
@@ -86,7 +86,31 @@ namespace CKO.Payments.Controllers
                 if (model.IsSecretValid(merchant))
                 {
                     var response = _transactionsService.ProcessTransaction(model.GetTransactionModel(merchant));
-                    return ResponseModel.GetSuccessResponse(response); ;
+                    return ResponseModel.GetSuccessResponse(response);
+                }
+                else
+                {
+                    return ResponseModel.GetErrorResponse(StatusCodes.Status400BadRequest, "Invalid request, please check and try again");
+                }
+            }
+            catch (Exception exc)
+            {
+                return ResponseModel.GetErrorResponse(exc);
+            }
+        }
+
+        [HttpPost]
+        [Route("settle")]
+        public ResponseModel SettlePayment([FromBody] ProcessPaymentModel model)
+        {
+            try
+            {
+                var merchant = (MerchantModel)HttpContext.Items["Merchant"];
+
+                if (model.IsSecretValid(merchant))
+                {
+                    var response = _transactionsService.ProcessTransaction(model.GetTransactionModel(merchant));
+                    return ResponseModel.GetSuccessResponse(response);
                 }
                 else
                 {

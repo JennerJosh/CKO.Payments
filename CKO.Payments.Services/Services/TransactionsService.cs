@@ -1,4 +1,5 @@
-﻿using CKO.Payments.BL.Exceptions.Transactions;
+﻿using CKO.Payments.Bank.Client.Interface;
+using CKO.Payments.BL.Exceptions.Transactions;
 using CKO.Payments.BL.Mappers;
 using CKO.Payments.BL.Models;
 using CKO.Payments.BL.Services.Interfaces;
@@ -10,10 +11,12 @@ namespace CKO.Payments.BL.Services
     public class TransactionsService : ITransactionsService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBankClient _bankClient;
 
-        public TransactionsService(IUnitOfWork unitOfWork)
+        public TransactionsService(IUnitOfWork unitOfWork, IBankClient bankClient)
         {
             _unitOfWork = unitOfWork;
+            _bankClient = bankClient;
         }
 
         /// <summary>
@@ -54,38 +57,46 @@ namespace CKO.Payments.BL.Services
             if (!transaction.IsValid())
                 throw new InvalidTransactionException("Invalid request, please check model and try again.");
 
-            // Convert transaction into DTO object
-            var dtoObject = TransactionMapper.MapToTransaction(transaction);
-
             // Update Status of the transaction
-            dtoObject.Status = (int)TransactionStatus.Processing;
-            dtoObject.StatusMessage = "Transaction Processing";
+            transaction.Status = (int)TransactionStatus.Processing;
+            transaction.StatusMessage = "Transaction Processing";
 
             // Send transaction to DB to store details
-            _unitOfWork.TransactionRepository.UpdateTransaction(dtoObject);
+            UpdateTransaction(transaction);
+
+            // Convert model to bank processing model
+            var processingModel = new Bank.Models.PaymentProcessingModel();
 
             // Send request to Bank to process
-            var bankResponse = true;
+            var bankResponse = _bankClient.ProcessPayment(processingModel);
             // TODO: Connect to Bank API and await response
 
             // Process response from Bank
-            if (bankResponse)
+            if (bankResponse.IsSuccess)
             {
-                dtoObject.Status = (int)TransactionStatus.Settled;
-                dtoObject.StatusMessage = "Transaction Settled";
+                transaction.Status = (int)TransactionStatus.Approved;
+                transaction.StatusMessage = "Transaction is approved, awaiting settlement";
             }
             else
             {
-                dtoObject.Status = (int)TransactionStatus.Declined;
-                dtoObject.StatusMessage = "Transaction Declined";
+                transaction.Status = (int)TransactionStatus.Declined;
+                transaction.StatusMessage = $"Transaction Declined: {bankResponse.Message}";
             }
 
             // Send status update to DB
-            _unitOfWork.TransactionRepository.UpdateTransaction(dtoObject);
+            UpdateTransaction(transaction);
 
             // return response
             return transaction;
 
+        }
+
+        private void UpdateTransaction(TransactionModel transaction)
+        {
+            // Convert transaction into DTO object
+            var dtoObject = TransactionMapper.MapToTransaction(transaction);
+            // Send transaction to DB to store details
+            _unitOfWork.TransactionRepository.UpdateTransaction(dtoObject);
         }
 
     }

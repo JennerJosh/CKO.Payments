@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CKO.Payments.Bank.Client;
+using CKO.Payments.Bank.Client.Interface;
 using CKO.Payments.BL.Services;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL;
@@ -35,12 +37,14 @@ namespace CKO.Payments
         {
             services.AddControllers();
             services.AddDbContext<CkoContext>(s => s.UseSqlServer(Configuration.GetConnectionString("CkoContext")));
+            services.AddHttpClient<IHttpRequests, HttpRequests>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<ISecurityService, SecurityService>();
             services.AddTransient<IMerchantsService, MerchantsService>();
             services.AddTransient<ITransactionsService, TransactionsService>();
+            services.AddTransient<IBankClient, NakatomiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

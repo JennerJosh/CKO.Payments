@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CKO.Payments.Bank\CKO.Payments.Bank.csproj" />
     <ProjectReference Include="..\CKO.Payments.DAL\CKO.Payments.DAL.csproj" />
   </ItemGroup>
 
