@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace CKO.Payments.Bank.Models
 {
-    public class BankResponseModel
+    public class PaymentSettlementModel
     {
-        public bool IsSuccess { get; set; }
         public string PaymentId { get; set; }
-        public string Message { get; set; }
+
+        public PaymentSettlementModel()
+        {
+
+        }
+
+        public PaymentSettlementModel(string paymentId)
+        {
+            PaymentId = paymentId;
+        }
     }
 }

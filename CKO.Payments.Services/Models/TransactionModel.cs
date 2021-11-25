@@ -1,4 +1,4 @@
-﻿using static CKO.Payments.BL.Enums.Transactions;
+﻿using static CKO.Payments.DAL.Enums.Transactions;
 
 namespace CKO.Payments.BL.Models
 {
@@ -8,6 +8,7 @@ namespace CKO.Payments.BL.Models
 
         public Guid Id { get; set; }
         public Guid MerchantId { get; set; }
+        public string BankPaymentId { get; set; }
         public decimal Amount { get; set; }
         public string Currency { get; set; }
         public int Status { get; set; } = (int)TransactionStatus.Pending;
@@ -49,6 +50,17 @@ namespace CKO.Payments.BL.Models
         public bool IsStubValid()
         {
             return IsAmountSet() && IsCurrencyValid();
+        }
+
+        public void SetStatus(int status, string statusMessage)
+        {
+            Status = status;
+            StatusMessage = statusMessage;
+        }
+
+        public void SetPaymentId(string bankPaymentId)
+        {
+            BankPaymentId = bankPaymentId;
         }
 
         private bool IsAmountSet()

@@ -12,6 +12,8 @@ namespace CKO.Payments.Data.DTO
 
         public Guid? CustomerId { get; set; }
 
+        public string? BankPaymentId { get; set; }
+
         public decimal Amount { get; set; }
 
         [MaxLength(3)]

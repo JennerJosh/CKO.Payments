@@ -6,5 +6,8 @@ namespace CKO.Payments.DAL.Repositories.Interfaces
     {
         void AddTransaction(Transaction transaction);
         void UpdateTransaction(Transaction transaction);
+        Transaction GetTransaction(Guid Id);
+        Transaction GetPendingTransaction(Guid id);
+        IEnumerable<Transaction> GetTransactionsByMerchant(Guid merchantId);
     }
 }

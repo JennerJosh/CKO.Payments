@@ -1,7 +1,7 @@
 ﻿
-namespace CKO.Payments.BL.Enums
+namespace CKO.Payments.DAL.Enums
 {
-    internal class Transactions
+    public class Transactions
     {
         public enum TransactionStatus
         {

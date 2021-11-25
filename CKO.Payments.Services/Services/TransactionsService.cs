@@ -1,10 +1,11 @@
 ﻿using CKO.Payments.Bank.Client.Interface;
+using CKO.Payments.Bank.Models;
 using CKO.Payments.BL.Exceptions.Transactions;
 using CKO.Payments.BL.Mappers;
 using CKO.Payments.BL.Models;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL.Interfaces;
-using static CKO.Payments.BL.Enums.Transactions;
+using static CKO.Payments.DAL.Enums.Transactions;
 
 namespace CKO.Payments.BL.Services
 {
@@ -49,17 +50,16 @@ namespace CKO.Payments.BL.Services
         /// Transaction record statuses are updated to reflect outcomes
         /// </summary>
         /// <param name="transaction">TransactionModel to process</param>
-        /// <returns>TransactionModel</returns>
+        /// <returns>Response containing transaction id, payment id or messagew from bank if it was not successful</returns>
         /// <exception cref="InvalidTransactionException">An ascpect of the TransactionModel is invalid and requires checking</exception>
-        public TransactionModel ProcessTransaction(TransactionModel transaction)
+        public PaymentProcessingResponseModel ProcessTransaction(TransactionModel transaction)
         {
             // Validate model is correct
             if (!transaction.IsValid())
                 throw new InvalidTransactionException("Invalid request, please check model and try again.");
 
             // Update Status of the transaction
-            transaction.Status = (int)TransactionStatus.Processing;
-            transaction.StatusMessage = "Transaction Processing";
+            transaction.SetStatus((int)TransactionStatus.Processing, "Transaction Processing");
 
             // Send transaction to DB to store details
             UpdateTransaction(transaction);
@@ -69,34 +69,84 @@ namespace CKO.Payments.BL.Services
 
             // Send request to Bank to process
             var bankResponse = _bankClient.ProcessPayment(processingModel);
-            // TODO: Connect to Bank API and await response
 
             // Process response from Bank
             if (bankResponse.IsSuccess)
             {
-                transaction.Status = (int)TransactionStatus.Approved;
-                transaction.StatusMessage = "Transaction is approved, awaiting settlement";
+                transaction.SetStatus((int)TransactionStatus.Approved, "Transaction is approved, awaiting settlement");
+                transaction.SetPaymentId(bankResponse.PaymentId);
             }
             else
             {
-                transaction.Status = (int)TransactionStatus.Declined;
-                transaction.StatusMessage = $"Transaction Declined: {bankResponse.Message}";
+                transaction.SetStatus((int)TransactionStatus.Declined, $"Transaction Declined: {bankResponse.Message}");
             }
 
             // Send status update to DB
             UpdateTransaction(transaction);
 
             // return response
-            return transaction;
-
+            return PaymentProcessingMapper.MapToPaymentProcessingResponseModel(bankResponse, transaction);
         }
 
-        private void UpdateTransaction(TransactionModel transaction)
+        /// <summary>
+        /// Sends transaction to DAL to update database record
+        /// </summary>
+        /// <param name="transaction"></param>
+        public void UpdateTransaction(TransactionModel transaction)
         {
             // Convert transaction into DTO object
             var dtoObject = TransactionMapper.MapToTransaction(transaction);
             // Send transaction to DB to store details
             _unitOfWork.TransactionRepository.UpdateTransaction(dtoObject);
+        }
+
+        public PaymentSettlementResponseModel SettleTransaction(TransactionModel transaction)
+        {
+            // Get the transaction from the database
+            var dtoObject = _unitOfWork.TransactionRepository.GetTransaction(transaction.Id);
+
+            // Validate transaction record exists and the provided payment id belongs to this transaction
+            if (dtoObject == null)
+                return new PaymentSettlementResponseModel(false, "Transaction could not be found or has already been completed");
+
+            if (dtoObject.BankPaymentId != transaction.BankPaymentId)
+                return new PaymentSettlementResponseModel(false, "Payment Id does not match");
+
+            // Create settlement model
+            var settlementModel = new PaymentSettlementModel(transaction.BankPaymentId);
+
+            // Send request to bank to settle payment
+            var bankResponse = _bankClient.SettlePayment(settlementModel);
+
+            // Process response from the bank
+            if (bankResponse.IsSuccess)
+            {
+                transaction.SetStatus((int)TransactionStatus.Settled, "Transaction has been settled");
+            }
+            else
+            {
+                transaction.SetStatus((int)TransactionStatus.Declined, $"Transaction could not be settled: {bankResponse.Message}");
+            }
+
+            // Update database record
+            UpdateTransaction(transaction);
+
+            // Return result
+            return new PaymentSettlementResponseModel(bankResponse.IsSuccess, bankResponse.Message);
+        }
+
+        /// <summary>
+        /// Retrieve a list of transactions that are linked to the merchant
+        /// </summary>
+        /// <param name="MerchantId">Id of the merchant</param>
+        /// <returns>List of transactions</returns>
+        public List<TransactionModel> GetMerchantTransactions(Guid merchantId)
+        {
+            var transactions = _unitOfWork.TransactionRepository.GetTransactionsByMerchant(merchantId);
+
+            return transactions
+                .Select(x => TransactionMapper.MapToTransactionModel(x))
+                .ToList();
         }
 
     }

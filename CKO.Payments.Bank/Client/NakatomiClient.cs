@@ -12,12 +12,12 @@ namespace CKO.Payments.Bank.Client
             _httpRequests = httpRequests;
         }
 
-        public ProcessingResponseModel ProcessPayment(PaymentProcessingModel model)
+        public BankResponseModel ProcessPayment(PaymentProcessingModel model)
         {
             throw new NotImplementedException();
         }
 
-        public void SettlePayment()
+        public BankResponseModel SettlePayment(PaymentSettlementModel model)
         {
             throw new NotImplementedException();
         }

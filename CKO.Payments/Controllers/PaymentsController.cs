@@ -26,29 +26,22 @@ namespace CKO.Payments.Controllers
             _transactionsService = transactionsService;
         }
 
-        // GET: api/<MerchantsController>
-        //[HttpGet]
-        //public ResponseModel Get()
-        //{
-        //    try
-        //    {
-        //        var merchant = (MerchantModel)HttpContext.Items["Merchant"];
-        //        var model = _merchantsService.GetMerchantFromEmail(merchant.Email);
+        [HttpGet]
+        public ResponseModel Get()
+        {
+            try
+            {
+                var merchant = (MerchantModel)HttpContext.Items["Merchant"];
+                var transaction = _transactionsService.GetMerchantTransactions(merchant.Id);
 
-        //        // For security we don't want to reveal Merchant Secret
-        //        // Last 4 characters of the Secret will be revealed
-        //        // This is to allow Merchant to confirm similiarity to Secret they have on file
-        //        model.MaskSecret();
+                return ResponseModel.GetSuccessResponse(transaction);
+            }
+            catch (Exception exc)
+            {
+                return ResponseModel.GetErrorResponse(exc);
+            }
+        }
 
-        //        return ResponseModel.GetSuccessResponse(model);
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        return ResponseModel.GetErrorResponse(exc);
-        //    }
-        //}
-
-        //POST api/<MerchantsController> 
         [HttpPost]
         [Route("Intent")]
         public ResponseModel PaymentIntent([FromBody] PaymentIntentModel model)
@@ -74,7 +67,7 @@ namespace CKO.Payments.Controllers
                 return ResponseModel.GetErrorResponse(exc);
             }
         }
-        
+
         [HttpPost]
         [Route("Process")]
         public ResponseModel ProcessPayment([FromBody] ProcessPaymentModel model)

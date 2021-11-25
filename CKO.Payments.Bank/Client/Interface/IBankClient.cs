@@ -4,8 +4,8 @@ namespace CKO.Payments.Bank.Client.Interface
 {
     public interface IBankClient
     {
-        public ProcessingResponseModel ProcessPayment(PaymentProcessingModel model);
-        public void SettlePayment();
+        BankResponseModel ProcessPayment(PaymentProcessingModel model);
+        BankResponseModel SettlePayment(PaymentSettlementModel model);
 
     }
 }
