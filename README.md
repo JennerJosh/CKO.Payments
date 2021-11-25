@@ -46,6 +46,12 @@ This will create the database against the local database server on your machine,
 
 Once the database has been built you can run this project by using the built-in debugger in visual studio, alternatively you can use the 'dotnet run' command against the CKO.Payments project in your terminal
 
+### Nakatomi.Bank
+
+Please ensure you have the Nakatomi.Bank solution running alongside the CKO.Payments project, inside the appsettings.json you will see the BaseUrl for the Nakatomi bank, it is likely that the port that the project runs on on your machine will be different to the one on mine, if it is please update the appsettings.json to point at the correct point.
+
+This partner project is a mock server, the only functionality it provides is the JWT token, everything else is random responses to the process and settle endpoints. This could have been a project within this solution but considering this is meant to be a bank simulator I wanted to keep this main project clean of any of the simulator logic and instead call into it as it would an actual bank API.
+
 ## Design assumptions
 
 ### Customer
