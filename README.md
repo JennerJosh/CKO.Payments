@@ -81,3 +81,9 @@ This would have the preceived benefit that it would make the API easier to code 
 
 For this execise I did not implement logging in the way I think would be beneficial moving forward, to start with I would implement a basic log system that would output to a service like DataDog, as well as using an exception tracking solution like Sentry, whilst you could use DataDog for both, it is not the best way to use it as it does not capture stacktraces and other key elements that would be needed to diagnosing issues. It does however provide a snapshot of the events that occured up to the point of failure.
 
+### Data Encryption
+
+Future change I would make is to save all data pretaining to card details or customer addresses as encrypted values, this will provided additional security encase of a data leak or security breach. When returning the data to the user to view I am masking all sensitive data so that only the minimum needed to verify a transaction can be seen. because of the masking it will always leave the last three characters unmasked, this is so that the user can have some data to do a comparison with, for example, the end of a card number or post code.
+
+There are issues with this approach in that if the data provided is three characters or less then it would not be masked.
+
