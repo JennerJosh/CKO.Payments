@@ -5,13 +5,13 @@ This project is a payment processing api built for Checkout
 ## Overview
 
 This is built as a AWS Serverless application, this sits on top of the AWS lambda and CloudFormation resources. 
-There are a few reasons why I choose to go down this route, The primary reason is that by in being serverless is can be scaled both vertically and horizontally, there is also the benefit that ir reduces the amount of DevOps required for setup and maintenance of the application.
+There are a few reasons why I choose to go down this route, The primary reason is that by in being serverless is can be scaled both vertically and horizontally, there is also the benefit that it reduces the amount of DevOps required for setup and maintenance of the application.
 
 When deciding on which type of project to go with I did initially think using AWS Lambda, the idea behind this was to use SQS/SNS and to have individual functions for each Http endpoint; 
 I decided against using this approach due to the need to return a response the clients request. We could still use Lambda functions but we would not be able to use events as this would then push into a queue for processing, meaning that the client would not get a response to the initial request and instead need to be notified when it has been actioned.
 In the end I landed on building a more traditional API as it will action requests as they come in, because it is still serverless it can scale to be able to keep up with high volume periods.
 
-I decided to use AWS over Azure mainly as I had never used it before so it felt like a challenge to learn more about the services and what they can offer. Unfortuntely due to going with a traditional API instead of functions it meant that the leverage I could get from AWS was minimal, it would be the same between Azure and AWS in this instance as it could be deployed as an App Service which would also provided the scalability.
+I decided to use AWS over a more familiar option is mainly because I have never used it before so it felt like it would be more of a challenge to learn more about the services and what they can offer. Unfortuntely due to going with AWS Serverless with .NET Core Web API instead of functions it meant that the opportunity to experience what AWS has to offer/challenges it would pose was not there, it would be the same between Azure and AWS in this instance as it could be deployed as an App Service which would also provide the scalability AWS Serverless does.
 
 The structure of the solution is as follows
 
@@ -80,4 +80,10 @@ This would have the preceived benefit that it would make the API easier to code 
 ### Logging 
 
 For this execise I did not implement logging in the way I think would be beneficial moving forward, to start with I would implement a basic log system that would output to a service like DataDog, as well as using an exception tracking solution like Sentry, whilst you could use DataDog for both, it is not the best way to use it as it does not capture stacktraces and other key elements that would be needed to diagnosing issues. It does however provide a snapshot of the events that occured up to the point of failure.
+
+### Data Encryption
+
+Future change I would make is to save all data pretaining to card details or customer addresses as encrypted values, this will provided additional security encase of a data leak or security breach. When returning the data to the user to view I am masking all sensitive data so that only the minimum needed to verify a transaction can be seen. because of the masking it will always leave the last three characters unmasked, this is so that the user can have some data to do a comparison with, for example, the end of a card number or post code.
+
+There are issues with this approach in that if the data provided is three characters or less then it would not be masked.
 
