@@ -50,7 +50,7 @@ namespace CKO.Payments.Controllers
 
         //POST api/<MerchantsController> 
         [HttpPost]
-        [Route("intent")]
+        [Route("Intent")]
         public ResponseModel PaymentIntent([FromBody] PaymentIntentModel model)
         {
             try
@@ -76,7 +76,7 @@ namespace CKO.Payments.Controllers
         }
         
         [HttpPost]
-        [Route("process")]
+        [Route("Process")]
         public ResponseModel ProcessPayment([FromBody] ProcessPaymentModel model)
         {
             try
@@ -100,7 +100,7 @@ namespace CKO.Payments.Controllers
         }
 
         [HttpPost]
-        [Route("settle")]
+        [Route("Settle")]
         public ResponseModel SettlePayment([FromBody] ProcessPaymentModel model)
         {
             try

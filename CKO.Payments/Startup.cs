@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace CKO.Payments
 {
@@ -36,6 +37,12 @@ namespace CKO.Payments
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CKO Payments API", Version = "v1" });
+            });
+
             services.AddDbContext<CkoContext>(s => s.UseSqlServer(Configuration.GetConnectionString("CkoContext")));
             services.AddHttpClient<IHttpRequests, HttpRequests>();
 
@@ -63,13 +70,17 @@ namespace CKO.Payments
 
             app.UseMiddleware<JwtAuthenticationMiddleware>();
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "CKO Payments API v1");
+                x.RoutePrefix = String.Empty;
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda");
-                });
             });
         }
     }

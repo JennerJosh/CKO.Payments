@@ -50,6 +50,7 @@ namespace CKO.Payments.Controllers
         //POST api/<MerchantsController> 
         [HttpPost]
         [AllowAnonymous]
+        [Route("Register")]
         public ResponseModel Post([FromBody] RegisterMerchantModel model)
         {
             try
