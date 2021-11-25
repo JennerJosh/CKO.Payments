@@ -32,9 +32,9 @@ namespace CKO.Payments.Controllers
             try
             {
                 var merchant = (MerchantModel)HttpContext.Items["Merchant"];
-                var transaction = _transactionsService.GetMerchantTransactions(merchant.Id);
+                var transactions = _transactionsService.GetMerchantTransactions(merchant.Id);
 
-                return ResponseModel.GetSuccessResponse(transaction);
+                return ResponseModel.GetSuccessResponse(transactions);
             }
             catch (Exception exc)
             {

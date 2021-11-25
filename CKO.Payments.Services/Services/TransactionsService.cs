@@ -145,7 +145,13 @@ namespace CKO.Payments.BL.Services
             var transactions = _unitOfWork.TransactionRepository.GetTransactionsByMerchant(merchantId);
 
             return transactions
-                .Select(x => TransactionMapper.MapToTransactionModel(x))
+                .Select(x =>
+                {
+                    var obj = TransactionMapper.MapToTransactionModel(x);
+                    obj.MaskSensitiveData();
+
+                    return obj;
+                })
                 .ToList();
         }
 

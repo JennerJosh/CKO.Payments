@@ -1,4 +1,6 @@
 ﻿
+using CKO.Payments.BL.Extensions;
+
 namespace CKO.Payments.BL.Models
 {
     public class LineItemModel
@@ -13,6 +15,11 @@ namespace CKO.Payments.BL.Models
             return !string.IsNullOrEmpty(Name)
                 && Price > decimal.Zero
                 && Quantity > int.MinValue;
+        }
+
+        public void MaskSensitiveData()
+        {
+            Name = Name.Mask();
         }
     }
 }

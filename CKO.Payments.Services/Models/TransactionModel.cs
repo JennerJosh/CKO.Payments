@@ -63,6 +63,13 @@ namespace CKO.Payments.BL.Models
             BankPaymentId = bankPaymentId;
         }
 
+        public void MaskSensitiveData()
+        {
+            Card?.MaskSensitiveData();
+            Customer?.MaskSensitiveData();
+            LineItems?.ForEach(x => x.MaskSensitiveData());
+        }
+
         private bool IsAmountSet()
         {
             return Amount > decimal.Zero;

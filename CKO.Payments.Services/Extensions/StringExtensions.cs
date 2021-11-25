@@ -13,10 +13,13 @@ namespace CKO.Payments.BL.Extensions
         /// </summary>
         /// <param name="value">String to be masked</param>
         /// <param name="maskChar">Mask character, this is defaulted to X</param>
-        /// <param name="unMaskedLength">Length of unmasked potion of string, this is defaulted to 4</param>
+        /// <param name="unMaskedLength">Length of unmasked potion of string, this is defaulted to 3</param>
         /// <returns>A masked string representation of the original string</returns>
-        public static string Mask(this string value, char maskChar = 'X', int unMaskedLength = 4)
+        public static string Mask(this string value, char maskChar = 'X', int unMaskedLength = 3)
         {
+            if(string.IsNullOrEmpty(value))
+                return value;
+
             var len = value.Length;
             return new string(maskChar, len - unMaskedLength) + value.Substring(len - unMaskedLength);
         }

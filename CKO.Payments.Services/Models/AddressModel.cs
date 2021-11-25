@@ -1,4 +1,6 @@
 ﻿
+using CKO.Payments.BL.Extensions;
+
 namespace CKO.Payments.BL.Models
 {
     public class AddressModel
@@ -20,6 +22,16 @@ namespace CKO.Payments.BL.Models
                 && !string.IsNullOrEmpty(County)
                 && !string.IsNullOrEmpty(Country)
                 && !string.IsNullOrEmpty(PostCode);
+        }
+
+        public void MaskSensitiveData()
+        {
+            Line2 = Line2.Mask();
+            Line3 = Line3.Mask();
+            Town = Town.Mask();
+            County = County.Mask();
+            Country = Country.Mask();
+            PostCode = PostCode.Mask();
         }
     }
 }

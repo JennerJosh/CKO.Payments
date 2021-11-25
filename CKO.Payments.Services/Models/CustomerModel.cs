@@ -1,4 +1,6 @@
 ﻿
+using CKO.Payments.BL.Extensions;
+
 namespace CKO.Payments.BL.Models
 {
     public class CustomerModel
@@ -17,6 +19,13 @@ namespace CKO.Payments.BL.Models
                 && !string.IsNullOrEmpty(LastName)
                 && !string.IsNullOrEmpty(Email)
                 && isAddressValid;
+        }
+
+        public void MaskSensitiveData()
+        {
+            Address?.MaskSensitiveData();
+            Email = Email.Mask();
+            LastName = LastName.Mask();
         }
     }
 }

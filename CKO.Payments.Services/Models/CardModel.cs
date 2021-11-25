@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using CKO.Payments.BL.Extensions;
+using System.Text.RegularExpressions;
 
 namespace CKO.Payments.BL.Models
 {
@@ -19,7 +20,7 @@ namespace CKO.Payments.BL.Models
         public string Number { get; set; }
         public int ExpiryMonth { get; set; }
         public int ExpiryYear { get; set; }
-        public int Cvv { get; set; }
+        public int? Cvv { get; set; }
 
         public bool IsValid()
         {
@@ -27,7 +28,12 @@ namespace CKO.Payments.BL.Models
                 && (IsCardNumberValid())
                 && (ExpiryMonth >= MIN_EXPIRY_MONTH && ExpiryMonth <= MAX_EXPIRY_MONTH)
                 && (ExpiryYear >= MIN_EXPIRY_YEAR && ExpiryYear <= MAX_EXPIRY_YEAR)
-                && (Cvv >= MIN_CVV_VALUE && Cvv <= MAX_CVV_VALUE);
+                && (Cvv != null && Cvv >= MIN_CVV_VALUE && Cvv <= MAX_CVV_VALUE);
+        }
+
+        public void MaskSensitiveData()
+        {
+            Number = Number.Mask();
         }
 
         private bool IsCardNumberValid()
