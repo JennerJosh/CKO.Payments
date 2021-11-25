@@ -14,12 +14,12 @@ namespace CKO.Payments.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TokensController : ControllerBase
+    public class TokenController : ControllerBase
     {
         private readonly ISecurityService _securityService;
         private readonly IMerchantsService _merchantsService;
 
-        public TokensController(ISecurityService securityService, IMerchantsService merchantsService)
+        public TokenController(ISecurityService securityService, IMerchantsService merchantsService)
         {
             _securityService = securityService;
             _merchantsService = merchantsService;
