@@ -14,6 +14,7 @@ namespace CKO.Payments.Models.Payments
         public PaymentCustomer Customer { get; set; }
         public PaymentCard Card { get; set; }
         public string MerchantSecret { get; set; }
+        public string BankPaymentId { get; set; }
 
         public TransactionModel GetTransactionModel(MerchantModel merchant)
         {
@@ -23,9 +24,10 @@ namespace CKO.Payments.Models.Payments
                 MerchantId = merchant.Id,
                 Amount = Amount,
                 Currency = Currency,
-                Card = Card.GetCardModel(),
-                Customer = Customer.GetCustomerModel(),
-                LineItems = Items
+                BankPaymentId = BankPaymentId,
+                Card = Card?.GetCardModel(),
+                Customer = Customer?.GetCustomerModel(),
+                LineItems = Items?
                 .Select(x => x.GetLineItemModel())
                 .ToList()
             };

@@ -5,6 +5,7 @@ using CKO.Payments.BL.Mappers;
 using CKO.Payments.BL.Models;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL.Interfaces;
+using CKO.Payments.Data.DTO;
 using static CKO.Payments.DAL.Enums.Transactions;
 
 namespace CKO.Payments.BL.Services
@@ -52,7 +53,7 @@ namespace CKO.Payments.BL.Services
         /// <param name="transaction">TransactionModel to process</param>
         /// <returns>Response containing transaction id, payment id or messagew from bank if it was not successful</returns>
         /// <exception cref="InvalidTransactionException">An ascpect of the TransactionModel is invalid and requires checking</exception>
-        public PaymentProcessingResponseModel ProcessTransaction(TransactionModel transaction)
+        public async Task<PaymentProcessingResponseModel> ProcessTransactionAsync(TransactionModel transaction)
         {
             // Validate model is correct
             if (!transaction.IsValid())
@@ -62,27 +63,32 @@ namespace CKO.Payments.BL.Services
             transaction.SetStatus((int)TransactionStatus.Processing, "Transaction Processing");
 
             // Send transaction to DB to store details
-            UpdateTransaction(transaction);
+            var dtoObject = UpdateTransaction(transaction);
 
             // Convert model to bank processing model
             var processingModel = new Bank.Models.PaymentProcessingModel();
 
             // Send request to Bank to process
-            var bankResponse = _bankClient.ProcessPayment(processingModel);
+            var bankResponse = await _bankClient.ProcessPaymentAsync(processingModel);
 
             // Process response from Bank
             if (bankResponse.IsSuccess)
             {
-                transaction.SetStatus((int)TransactionStatus.Approved, "Transaction is approved, awaiting settlement");
-                transaction.SetPaymentId(bankResponse.PaymentId);
+                dtoObject.Status = (int)TransactionStatus.Approved;
+                dtoObject.StatusMessage = "Transaction is approved, awaiting settlement";
+                dtoObject.BankPaymentId = bankResponse.PaymentId;
             }
             else
             {
-                transaction.SetStatus((int)TransactionStatus.Declined, $"Transaction Declined: {bankResponse.Message}");
+                dtoObject.Status = (int)TransactionStatus.Declined;
+                dtoObject.StatusMessage = $"Transaction Declined: {bankResponse.Message}";
             }
 
             // Send status update to DB
-            UpdateTransaction(transaction);
+            _ = UpdateTransaction(dtoObject);
+
+            // Map DTO object back to TransactionModel
+            transaction = TransactionMapper.MapToTransactionModel(dtoObject);
 
             // return response
             return PaymentProcessingMapper.MapToPaymentProcessingResponseModel(bankResponse, transaction);
@@ -92,15 +98,25 @@ namespace CKO.Payments.BL.Services
         /// Sends transaction to DAL to update database record
         /// </summary>
         /// <param name="transaction"></param>
-        public void UpdateTransaction(TransactionModel transaction)
+        public Transaction UpdateTransaction(TransactionModel transaction)
         {
             // Convert transaction into DTO object
             var dtoObject = TransactionMapper.MapToTransaction(transaction);
             // Send transaction to DB to store details
             _unitOfWork.TransactionRepository.UpdateTransaction(dtoObject);
+
+            return dtoObject;
         }
 
-        public PaymentSettlementResponseModel SettleTransaction(TransactionModel transaction)
+        public Transaction UpdateTransaction(Transaction transaction)
+        {
+            // Send transaction to DB to store details
+            _unitOfWork.TransactionRepository.UpdateTransaction(transaction);
+
+            return transaction;
+        }
+
+        public async Task<PaymentSettlementResponseModel> SettleTransactionAsync(TransactionModel transaction)
         {
             // Get the transaction from the database
             var dtoObject = _unitOfWork.TransactionRepository.GetTransaction(transaction.Id);
@@ -116,20 +132,22 @@ namespace CKO.Payments.BL.Services
             var settlementModel = new PaymentSettlementModel(transaction.BankPaymentId);
 
             // Send request to bank to settle payment
-            var bankResponse = _bankClient.SettlePayment(settlementModel);
+            var bankResponse = await _bankClient.SettlePaymentAsync(settlementModel);
 
             // Process response from the bank
             if (bankResponse.IsSuccess)
             {
-                transaction.SetStatus((int)TransactionStatus.Settled, "Transaction has been settled");
+                dtoObject.Status = (int)TransactionStatus.Settled;
+                dtoObject.StatusMessage = "Transaction has been settled";
             }
             else
             {
-                transaction.SetStatus((int)TransactionStatus.Declined, $"Transaction could not be settled: {bankResponse.Message}");
+                dtoObject.Status = (int)TransactionStatus.Declined;
+                dtoObject.StatusMessage = $"Transaction could not be settled: {bankResponse.Message}";
             }
 
             // Update database record
-            UpdateTransaction(transaction);
+            _ = UpdateTransaction(dtoObject);
 
             // Return result
             return new PaymentSettlementResponseModel(bankResponse.IsSuccess, bankResponse.Message);

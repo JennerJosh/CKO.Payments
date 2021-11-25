@@ -4,7 +4,7 @@ namespace CKO.Payments.Bank.Client.Interface
 {
     public interface IBankClient
     {
-        Task<BankResponseModel> ProcessPayment(PaymentProcessingModel model);
-        Task<BankResponseModel> SettlePayment(PaymentSettlementModel model);
+        Task<ProcessingResponseModel> ProcessPaymentAsync(PaymentProcessingModel model);
+        Task<SettlementResponseModel> SettlePaymentAsync(PaymentSettlementModel model);
     }
 }

@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"secret\": \"\"\r\n}",
+					"raw": "{\r\n    \"email\": \"josh@test2.com\",\r\n    \"secret\": \"JYWXv1rfEKlEF5ToqtwJLl3CcX9wBRVqQ3hpJIh2OoA=\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,7 +20,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:44391/api/tokens/generate",
+					"raw": "https://localhost:44391/api/token/generate",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -28,7 +28,7 @@
 					"port": "44391",
 					"path": [
 						"api",
-						"tokens",
+						"token",
 						"generate"
 					]
 				}
@@ -61,6 +61,49 @@
 					"path": [
 						"api",
 						"merchants"
+					],
+					"query": [
+						{
+							"key": "x-api-token",
+							"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9zaCBUZXN0IDIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJqb3NoQHRlc3QxLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjIwMjEtMTEtMjRUMTM6MDg6MjQifQ.xzL-Te-A7cJ5iMCJgc7xWJRb5pRWKn2kflrR1rZSCx0",
+							"disabled": true
+						},
+						{
+							"key": "x-api-secret",
+							"value": "EDRRjqafBUam4Lt0IqYx2dNm7NNOD1OR3bJBiPMVFqQ=",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transactions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-token",
+						"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlkNDBjYjQ1LWNkNjItNDgyYy0xZGMyLTA4ZDlhZjNjNmYwNSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb3NoIFRlc3QgMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6Impvc2hAdGVzdDIuY29tIiwiZXhwIjoiMTYzNzkzODcwMiIsImlhdCI6IjE2Mzc4NTIzMDIiLCJzZWNyZXQiOiJKWVdYdjFyZkVLbEVGNVRvcXR3SkxsM0NjWDl3QlJWcVEzaHBKSWgyT29BPSJ9.yQaPnNmBMhnLD4Vuqh6pRO6vyBjOIOra79sFnnowad8",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44391/api/payments",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44391",
+					"path": [
+						"api",
+						"payments"
 					],
 					"query": [
 						{
@@ -115,13 +158,13 @@
 				"header": [
 					{
 						"key": "x-api-token",
-						"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlkNDBjYjQ1LWNkNjItNDgyYy0xZGMyLTA4ZDlhZjNjNmYwNSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb3NoIFRlc3QgMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6Impvc2hAdGVzdDIuY29tIiwiZXhwIjoiMTYzNzg1MDY2MiIsImlhdCI6IjE2Mzc3NjQyNjIiLCJzZWNyZXQiOiJKWVdYdjFyZkVLbEVGNVRvcXR3SkxsM0NjWDl3QlJWcVEzaHBKSWgyT29BPSJ9.7-LT58u6Frx1wGsUmM4xhiQw2zoZaeVpnLMswSuIX3s",
+						"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlkNDBjYjQ1LWNkNjItNDgyYy0xZGMyLTA4ZDlhZjNjNmYwNSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb3NoIFRlc3QgMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6Impvc2hAdGVzdDIuY29tIiwiZXhwIjoiMTYzNzk1ODI1NSIsImlhdCI6IjE2Mzc4NzE4NTUiLCJzZWNyZXQiOiJKWVdYdjFyZkVLbEVGNVRvcXR3SkxsM0NjWDl3QlJWcVEzaHBKSWgyT29BPSJ9.k4WrKcgXfEQ330W5mN0s1F4ouNXEgmgaP0qdm1c3XN4",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"amount\": 100.00,\r\n    \"currency\": \"gbp\",\r\n    \"merchantSecret\": \"\"\r\n}",
+					"raw": "{\r\n    \"amount\": 100.00,\r\n    \"currency\": \"gbp\",\r\n    \"merchantSecret\": \"JYWXv1rfEKlEF5ToqtwJLl3CcX9wBRVqQ3hpJIh2OoA=\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -146,6 +189,42 @@
 		},
 		{
 			"name": "Process Payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-token",
+						"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjlkNDBjYjQ1LWNkNjItNDgyYy0xZGMyLTA4ZDlhZjNjNmYwNSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJKb3NoIFRlc3QgMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6Impvc2hAdGVzdDIuY29tIiwiZXhwIjoiMTYzNzk1ODI1NSIsImlhdCI6IjE2Mzc4NzE4NTUiLCJzZWNyZXQiOiJKWVdYdjFyZkVLbEVGNVRvcXR3SkxsM0NjWDl3QlJWcVEzaHBKSWgyT29BPSJ9.k4WrKcgXfEQ330W5mN0s1F4ouNXEgmgaP0qdm1c3XN4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transactionId\": \"c2ce0d1d-dd71-4564-4b4e-08d9b0594357\",\r\n    \"amount\": 100.00,\r\n    \"currency\": \"gbp\",\r\n    \"items\": [\r\n        {\r\n            \"name\": \"Test\",\r\n            \"price\": 100.00,\r\n            \"quantity\": 1\r\n        }\r\n    ],\r\n    \"customer\": {\r\n        \"firstname\": \"Test\",\r\n        \"lastname\": \"Test\",\r\n        \"email\": \"test@test.com\",\r\n        \"address\": {\r\n            \"line1\": \"test\",\r\n            \"line2\": \"test\",\r\n            \"town\": \"test\",\r\n            \"county\": \"test\",\r\n            \"country\": \"test\",\r\n            \"postcode\": \"test\"\r\n        }\r\n    },\r\n    \"card\":{\r\n        \"name\": \"test test\",\r\n        \"number\": \"371449635398431\",\r\n        \"expirymonth\": \"12\",\r\n        \"expiryyear\": \"2026\",\r\n        \"cvv\": \"123\"\r\n    },\r\n    \"merchantSecret\": \"JYWXv1rfEKlEF5ToqtwJLl3CcX9wBRVqQ3hpJIh2OoA=\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44391/api/payments/process",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44391",
+					"path": [
+						"api",
+						"payments",
+						"process"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Settle Payment",
 			"request": {
 				"method": "POST",
 				"header": [

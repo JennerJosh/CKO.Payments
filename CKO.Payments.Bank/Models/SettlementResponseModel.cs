@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CKO.Payments.Bank.Models
 {
-    public class ProcessingResponseModel
+    public class SettlementResponseModel
     {
         public bool IsSuccess { get; set; }
-        public string PaymentId { get; set; }
         public string Message { get; set; }
     }
 }

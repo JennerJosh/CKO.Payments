@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using CKO.Payments.Bank.Client;
 using CKO.Payments.Bank.Client.Interface;
+using CKO.Payments.Bank.Models.Interfaces;
+using CKO.Payments.Bank.Models.Nakatomi;
 using CKO.Payments.BL.Services;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL;
@@ -47,6 +49,16 @@ namespace CKO.Payments
             services.AddHttpClient<IHttpRequests, HttpRequests>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<INakatomiConfig>((s) =>
+            {
+                var nakatomiIndex = "Banks:Nakatomi";
+
+                return new NakatomiConfig(
+                        Configuration.GetValue<string>($"{nakatomiIndex}:BaseUrl"),
+                        Configuration.GetValue<string>($"{nakatomiIndex}:Username"),
+                        Configuration.GetValue<string>($"{nakatomiIndex}:Password"));
+            });
 
             services.AddTransient<ISecurityService, SecurityService>();
             services.AddTransient<IMerchantsService, MerchantsService>();

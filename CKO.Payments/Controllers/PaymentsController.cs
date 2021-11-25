@@ -9,6 +9,7 @@ using CKO.Payments.Models.Response;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using CKO.Payments.Models.Payments;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,7 +71,7 @@ namespace CKO.Payments.Controllers
 
         [HttpPost]
         [Route("Process")]
-        public ResponseModel ProcessPayment([FromBody] ProcessPaymentModel model)
+        public async Task<ResponseModel> ProcessPayment([FromBody] ProcessPaymentModel model)
         {
             try
             {
@@ -78,7 +79,7 @@ namespace CKO.Payments.Controllers
 
                 if (model.IsSecretValid(merchant))
                 {
-                    var response = _transactionsService.ProcessTransaction(model.GetTransactionModel(merchant));
+                    var response = await _transactionsService.ProcessTransactionAsync(model.GetTransactionModel(merchant));
                     return ResponseModel.GetSuccessResponse(response);
                 }
                 else
@@ -94,7 +95,7 @@ namespace CKO.Payments.Controllers
 
         [HttpPost]
         [Route("Settle")]
-        public ResponseModel SettlePayment([FromBody] ProcessPaymentModel model)
+        public async Task<ResponseModel> SettlePayment([FromBody] ProcessPaymentModel model)
         {
             try
             {
@@ -102,7 +103,7 @@ namespace CKO.Payments.Controllers
 
                 if (model.IsSecretValid(merchant))
                 {
-                    var response = _transactionsService.ProcessTransaction(model.GetTransactionModel(merchant));
+                    var response = await _transactionsService.SettleTransactionAsync(model.GetTransactionModel(merchant));
                     return ResponseModel.GetSuccessResponse(response);
                 }
                 else

@@ -13,7 +13,8 @@ namespace CKO.Payments.Bank.Client
     {
         private readonly IHttpRequests _httpRequests;
         private readonly INakatomiConfig _nakatomiConfig;
-        private string token { get; set; }
+
+        private static string token { get; set; } = String.Empty;
 
         public NakatomiClient(INakatomiConfig nakatomiConfig, IHttpRequests httpRequests)
         {
@@ -23,28 +24,28 @@ namespace CKO.Payments.Bank.Client
             _httpRequests.SetBaseAddress(_nakatomiConfig.BaseUrl);
         }
 
-        public async Task<BankResponseModel> ProcessPayment(PaymentProcessingModel model)
+        public async Task<ProcessingResponseModel> ProcessPaymentAsync(PaymentProcessingModel model)
         {
-            var endpoint = "payment/process";
+            var endpoint = "transactions/process";
 
             var request = _httpRequests.BuildRequest(endpoint, HttpMethod.Post, model);
             AddAuthenticationHeader(request);
 
             var response = await _httpRequests.ExecuteRequest(request);
 
-            return await ProcessResponse(response, async () => await ProcessPayment(model));
+            return await ProcessResponse(response, async () => await ProcessPaymentAsync(model));
         }
 
-        public async Task<BankResponseModel> SettlePayment(PaymentSettlementModel model)
+        public async Task<SettlementResponseModel> SettlePaymentAsync(PaymentSettlementModel model)
         {
-            var endpoint = "payment/settle";
+            var endpoint = "transactions/settle";
 
             var request = _httpRequests.BuildRequest(endpoint, HttpMethod.Post, model);
             AddAuthenticationHeader(request);
 
             var response = await _httpRequests.ExecuteRequest(request);
 
-            return await ProcessResponse(response, async () => await SettlePayment(model));
+            return await ProcessResponse(response, async () => await SettlePaymentAsync(model));
         }
 
         private async Task Authenticate()
@@ -58,7 +59,7 @@ namespace CKO.Payments.Bank.Client
 
             if (response.IsSuccessStatusCode)
             {
-                token = content;
+                token = content.Replace("\"", "");
             }
             else
             {

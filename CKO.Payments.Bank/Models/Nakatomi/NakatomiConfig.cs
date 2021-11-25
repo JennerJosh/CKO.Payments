@@ -7,5 +7,12 @@ namespace CKO.Payments.Bank.Models.Nakatomi
         public string BaseUrl { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public NakatomiConfig(string baseUrl, string userName, string password)
+        {
+            BaseUrl = baseUrl;
+            UserName = userName;
+            Password = password;
+        }
     }
 }

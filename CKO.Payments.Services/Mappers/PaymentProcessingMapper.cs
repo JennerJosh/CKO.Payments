@@ -10,7 +10,7 @@ namespace CKO.Payments.BL.Mappers
 {
     public static class PaymentProcessingMapper
     {
-        public static PaymentProcessingResponseModel MapToPaymentProcessingResponseModel(BankResponseModel bankResponse, TransactionModel transaction)
+        public static PaymentProcessingResponseModel MapToPaymentProcessingResponseModel(ProcessingResponseModel bankResponse, TransactionModel transaction)
         {
            return new()
             {

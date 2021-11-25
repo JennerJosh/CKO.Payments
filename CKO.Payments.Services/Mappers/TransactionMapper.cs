@@ -40,7 +40,8 @@ namespace CKO.Payments.BL.Mappers
                 MerchantId = model.MerchantId,
                 Card = model.Card == null ? null : CardMapper.MapToCardModel(model.Card),
                 Customer = model.Customer == null ? null : CustomerMapper.MapToCustomerModel(model.Customer),
-                LineItems = model.LineItems == null ? null : LineItemMapper.MapToLineItemModels(model.LineItems.ToList())
+                LineItems = model.LineItems == null ? null : LineItemMapper.MapToLineItemModels(model.LineItems.ToList()),
+                BankPaymentId = model.BankPaymentId
             };
         }
     }
