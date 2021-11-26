@@ -1,8 +1,8 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Transactions;
 
 namespace CKO.Payments.Models.Payments
 {
-    public class PaymentAddress
+    public class PaymentAddressModel
     {
         public string Line1 { get; set; }
         public string Line2 { get; set; }

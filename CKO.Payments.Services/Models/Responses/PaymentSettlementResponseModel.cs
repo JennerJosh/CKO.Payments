@@ -1,5 +1,4 @@
-﻿
-namespace CKO.Payments.BL.Models
+﻿namespace CKO.Payments.BL.Models.Responses
 {
     public class PaymentSettlementResponseModel
     {

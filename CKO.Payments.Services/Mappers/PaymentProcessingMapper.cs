@@ -1,10 +1,6 @@
 ﻿using CKO.Payments.Bank.Models;
-using CKO.Payments.BL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CKO.Payments.BL.Models.Responses;
+using CKO.Payments.BL.Models.Transactions;
 
 namespace CKO.Payments.BL.Mappers
 {

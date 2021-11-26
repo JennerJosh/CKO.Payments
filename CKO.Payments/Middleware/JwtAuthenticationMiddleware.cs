@@ -1,4 +1,4 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Merchants;
 using CKO.Payments.BL.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;

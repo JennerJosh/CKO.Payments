@@ -1,7 +1,6 @@
-﻿
-using CKO.Payments.BL.Extensions;
+﻿using CKO.Payments.BL.Extensions;
 
-namespace CKO.Payments.BL.Models
+namespace CKO.Payments.BL.Models.Transactions
 {
     public class AddressModel
     {

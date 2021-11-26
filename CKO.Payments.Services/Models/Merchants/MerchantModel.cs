@@ -2,7 +2,7 @@
 using CKO.Payments.BL.Helpers;
 using System.Text.RegularExpressions;
 
-namespace CKO.Payments.BL.Models
+namespace CKO.Payments.BL.Models.Merchants
 {
     public class MerchantModel
     {

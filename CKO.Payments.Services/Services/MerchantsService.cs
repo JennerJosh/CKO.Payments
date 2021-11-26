@@ -1,6 +1,6 @@
 ﻿using CKO.Payments.BL.Exceptions.Merchants;
 using CKO.Payments.BL.Mappers;
-using CKO.Payments.BL.Models;
+using CKO.Payments.BL.Models.Merchants;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL.Interfaces;
 

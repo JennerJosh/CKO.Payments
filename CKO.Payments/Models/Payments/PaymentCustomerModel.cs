@@ -1,13 +1,13 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Transactions;
 
 namespace CKO.Payments.Models.Payments
 {
-    public class PaymentCustomer
+    public class PaymentCustomerModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public PaymentAddress Address { get; set; }
+        public PaymentAddressModel Address { get; set; }
 
         public CustomerModel GetCustomerModel()
         {

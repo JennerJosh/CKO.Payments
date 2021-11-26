@@ -1,4 +1,5 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Merchants;
+using CKO.Payments.BL.Models.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace CKO.Payments.Models.Payments
         public Guid TransactionId { get; set; }
         public decimal Amount { get; set; }
         public string Currency { get; set; }
-        public List<PaymentLineItem> Items { get; set; }
-        public PaymentCustomer Customer { get; set; }
-        public PaymentCard Card { get; set; }
+        public List<PaymentLineItemModel> Items { get; set; }
+        public PaymentCustomerModel Customer { get; set; }
+        public PaymentCardModel Card { get; set; }
         public string MerchantSecret { get; set; }
         public string BankPaymentId { get; set; }
 

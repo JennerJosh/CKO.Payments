@@ -1,4 +1,5 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Responses;
+using CKO.Payments.BL.Models.Transactions;
 
 namespace CKO.Payments.BL.Services.Interfaces
 {

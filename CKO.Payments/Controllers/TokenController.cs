@@ -1,14 +1,9 @@
-﻿using CKO.Payments.BL.Exceptions.Tokens;
-using CKO.Payments.BL.Models;
-using CKO.Payments.BL.Services.Interfaces;
-using CKO.Payments.Models.Merchants;
+﻿using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.Models.Response;
 using CKO.Payments.Models.Tokens;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CKO.Payments.Controllers
 {
@@ -25,7 +20,6 @@ namespace CKO.Payments.Controllers
             _merchantsService = merchantsService;
         }
 
-        // POST api/<MerchantsController>
         [HttpPost]
         [Route("Generate")]
         public ResponseModel Post([FromBody] GenerateAuthTokenModel model)

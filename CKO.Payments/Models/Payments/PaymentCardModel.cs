@@ -1,10 +1,8 @@
-﻿using CKO.Payments.BL.Models;
-using System;
-using System.Text.RegularExpressions;
+﻿using CKO.Payments.BL.Models.Transactions;
 
 namespace CKO.Payments.Models.Payments
 {
-    public class PaymentCard
+    public class PaymentCardModel
     {
         public string Name { get; set; }
         public string Number { get; set; }

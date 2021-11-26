@@ -2,7 +2,8 @@
 using CKO.Payments.Bank.Models;
 using CKO.Payments.BL.Exceptions.Transactions;
 using CKO.Payments.BL.Mappers;
-using CKO.Payments.BL.Models;
+using CKO.Payments.BL.Models.Responses;
+using CKO.Payments.BL.Models.Transactions;
 using CKO.Payments.BL.Services.Interfaces;
 using CKO.Payments.DAL.Interfaces;
 using CKO.Payments.Data.DTO;

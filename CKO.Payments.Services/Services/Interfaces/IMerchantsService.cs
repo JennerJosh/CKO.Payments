@@ -1,9 +1,4 @@
-﻿using CKO.Payments.BL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CKO.Payments.BL.Models.Merchants;
 
 namespace CKO.Payments.BL.Services.Interfaces
 {

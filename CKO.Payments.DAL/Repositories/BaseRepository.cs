@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CKO.Payments.DAL.Repositories.Interfaces;
+﻿using CKO.Payments.DAL.Repositories.Interfaces;
 using CKO.Payments.Data;
 using Microsoft.EntityFrameworkCore;
 

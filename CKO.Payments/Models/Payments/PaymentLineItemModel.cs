@@ -1,8 +1,8 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Transactions;
 
 namespace CKO.Payments.Models.Payments
 {
-    public class PaymentLineItem
+    public class PaymentLineItemModel
     {
         public string Name { get; set; }
         public decimal Price { get; set; }

@@ -1,4 +1,4 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Transactions;
 using CKO.Payments.Data.DTO;
 
 namespace CKO.Payments.BL.Mappers

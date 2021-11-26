@@ -1,6 +1,7 @@
-﻿using static CKO.Payments.DAL.Enums.Transactions;
+﻿using CKO.Payments.BL.Models.Merchants;
+using static CKO.Payments.DAL.Enums.Transactions;
 
-namespace CKO.Payments.BL.Models
+namespace CKO.Payments.BL.Models.Transactions
 {
     public class TransactionModel
     {

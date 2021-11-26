@@ -1,7 +1,7 @@
 ﻿using CKO.Payments.BL.Extensions;
 using System.Text.RegularExpressions;
 
-namespace CKO.Payments.BL.Models
+namespace CKO.Payments.BL.Models.Transactions
 {
     public class CardModel
     {

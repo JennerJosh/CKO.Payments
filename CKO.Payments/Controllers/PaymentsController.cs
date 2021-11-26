@@ -1,17 +1,12 @@
-﻿using CKO.Payments.BL.Models;
-using CKO.Payments.BL.Services.Interfaces;
-using CKO.Payments.Models.Merchants;
+﻿using CKO.Payments.BL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using AuthorizeAttribute = CKO.Payments.Attributes.AuthorizeAttribute;
-using CKO.Payments.BL.Exceptions.Merchants;
 using Microsoft.AspNetCore.Http;
 using CKO.Payments.Models.Response;
 using System;
-using Microsoft.AspNetCore.Authorization;
 using CKO.Payments.Models.Payments;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using CKO.Payments.BL.Models.Merchants;
 
 namespace CKO.Payments.Controllers
 {

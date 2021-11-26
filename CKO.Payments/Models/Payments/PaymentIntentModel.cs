@@ -1,4 +1,5 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Merchants;
+using CKO.Payments.BL.Models.Transactions;
 using System;
 
 namespace CKO.Payments.Models.Payments

@@ -1,4 +1,4 @@
-﻿using CKO.Payments.BL.Models;
+﻿using CKO.Payments.BL.Models.Merchants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
