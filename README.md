@@ -17,26 +17,32 @@ The structure of the solution is as follows
 
 CKO.Payments
 - **CKO.Payments**
---  This Project is the API, it provides the endpoints for client systems to call into and process their payments
+
+This Project is the API, it provides the endpoints for client systems to call into and process their payments
 Merchant validation also occures in this project via a JWT token, this token will be valid for 24 hours from the point of issuing, the reason why this token has a long TTL is because a merchant will likely be making multiple payment request during the day, we want to streamline this process for them as much as possible.
 
 - **CKO.Payments.BL**
--- This project contains the business logic for the solution, in here you can find any business specific logic for processing of payments
+
+This project contains the business logic for the solution, in here you can find any business specific logic for processing of payments
 
 - **CKO.Payments.DAL**
--- This project is the data access layer, it is designed to be an itermidatary between the business logic and the data later.
+
+This project is the data access layer, it is designed to be an itermidatary between the business logic and the data later.
 There is an agrument to be made that this project is redundant it could be an component of the BL.
 I kept this as there will be data saving logic that in independant to any business logic, like data encryption, we 
 may also have multiple BL layers in which there should only be one DAL instead of enabling every BL layer to have their own DAL logic
 
 - **CKO.Payments.Data**
--- This project is responsible for storing and managing the DTO objects, we also contain the database migrations in this project
+
+This project is responsible for storing and managing the DTO objects, we also contain the database migrations in this project
 
 - **CKO.Payments.Tests**
--- This project contains unit tests for the BL layer
+
+This project contains unit tests for the BL layer
 
 - **CKO.Payments.Bank**
--- This project is responsible for connecting to banks for payment processing, in our situation we only have a single bank 'Nakatomi' in this project you will find the HttpClient for sending both the processing and settlement request to this bank.
+
+This project is responsible for connecting to banks for payment processing, in our situation we only have a single bank 'Nakatomi' in this project you will find the HttpClient for sending both the processing and settlement request to this bank.
 It has been writtin in this manner as it is highly likely that we will be working with multiple banks in the future and need to have each bank in an easily accessible location whilst also unifying their processes into a standard the rest of our project can work with
 
 ## How to run
@@ -45,6 +51,12 @@ If it is your first time running the solution then please run 'Update-Database' 
 This will create the database against the local database server on your machine, alternatively if you wish to build the database within another server, please change the 'CkoContext' found within the CKO.Payments appsettings.json file to be the connectionstring of your desired server
 
 Once the database has been built you can run this project by using the built-in debugger in visual studio, alternatively you can use the 'dotnet run' command against the CKO.Payments project in your terminal
+
+### Nakatomi.Bank
+
+Please ensure you have the Nakatomi.Bank solution running alongside the CKO.Payments project, inside the appsettings.json you will see the BaseUrl for the Nakatomi bank, it is likely that the port that the project runs on on your machine will be different to the one on mine, if it is please update the appsettings.json to point at the correct point.
+
+This partner project is a mock server, the only functionality it provides is the JWT token, everything else is random responses to the process and settle endpoints. This could have been a project within this solution but considering this is meant to be a bank simulator I wanted to keep this main project clean of any of the simulator logic and instead call into it as it would an actual bank API.
 
 ## Design assumptions
 
