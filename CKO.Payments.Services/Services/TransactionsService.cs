@@ -59,14 +59,21 @@ namespace CKO.Payments.BL.Services
             if (!transaction.IsValid())
                 throw new InvalidTransactionException("Invalid request, please check model and try again.");
 
+            // Fetch transaction from the database
+            // Onl retrieve transaction if it is in the Pending status
+            var dtoObject = _unitOfWork.TransactionRepository.GetPendingTransaction(transaction.Id);
+
+            if (dtoObject == null)
+                throw new InvalidTransactionException("Transaction could not be found, it has either already been processed or transaction id is incorrect");
+
             // Update Status of the transaction
-            transaction.SetStatus((int)TransactionStatus.Processing, "Transaction Processing");
+            dtoObject.SetStatus((int)TransactionStatus.Processing, "Transaction Processing");
 
             // Send transaction to DB to store details
-            var dtoObject = UpdateTransaction(transaction);
+            _ = UpdateTransaction(transaction);
 
             // Convert model to bank processing model
-            var processingModel = new Bank.Models.PaymentProcessingModel();
+            var processingModel = new PaymentProcessingModel();
 
             // Send request to Bank to process
             var bankResponse = await _bankClient.ProcessPaymentAsync(processingModel);
@@ -74,14 +81,12 @@ namespace CKO.Payments.BL.Services
             // Process response from Bank
             if (bankResponse.IsSuccess)
             {
-                dtoObject.Status = (int)TransactionStatus.Approved;
-                dtoObject.StatusMessage = "Transaction is approved, awaiting settlement";
+                dtoObject.SetStatus((int)TransactionStatus.Approved, "Transaction is approved, awaiting settlement");
                 dtoObject.BankPaymentId = bankResponse.PaymentId;
             }
             else
             {
-                dtoObject.Status = (int)TransactionStatus.Declined;
-                dtoObject.StatusMessage = $"Transaction Declined: {bankResponse.Message}";
+                dtoObject.SetStatus((int)TransactionStatus.Declined, $"Transaction Declined: {bankResponse.Message}");
             }
 
             // Send status update to DB
@@ -137,13 +142,11 @@ namespace CKO.Payments.BL.Services
             // Process response from the bank
             if (bankResponse.IsSuccess)
             {
-                dtoObject.Status = (int)TransactionStatus.Settled;
-                dtoObject.StatusMessage = "Transaction has been settled";
+                dtoObject.SetStatus((int)TransactionStatus.Settled, "Transaction has been settled");
             }
             else
             {
-                dtoObject.Status = (int)TransactionStatus.Declined;
-                dtoObject.StatusMessage = $"Transaction could not be settled: {bankResponse.Message}";
+                dtoObject.SetStatus((int)TransactionStatus.Declined, $"Transaction could not be settled: {bankResponse.Message}");
             }
 
             // Update database record

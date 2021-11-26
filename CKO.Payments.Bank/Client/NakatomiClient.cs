@@ -26,26 +26,48 @@ namespace CKO.Payments.Bank.Client
 
         public async Task<ProcessingResponseModel> ProcessPaymentAsync(PaymentProcessingModel model)
         {
-            var endpoint = "transactions/process";
+            try
+            {
+                var endpoint = "transactions/process";
 
-            var request = _httpRequests.BuildRequest(endpoint, HttpMethod.Post, model);
-            AddAuthenticationHeader(request);
+                var request = _httpRequests.BuildRequest(endpoint, HttpMethod.Post, model);
+                AddAuthenticationHeader(request);
 
-            var response = await _httpRequests.ExecuteRequest(request);
+                var response = await _httpRequests.ExecuteRequest(request);
 
-            return await ProcessResponse(response, async () => await ProcessPaymentAsync(model));
+                return await ProcessResponse(response, async () => await ProcessPaymentAsync(model));
+            }
+            catch (Exception exc)
+            {
+                return new ProcessingResponseModel
+                {
+                    IsSuccess = false,
+                    Message = exc.Message
+                };
+            }
         }
 
         public async Task<SettlementResponseModel> SettlePaymentAsync(PaymentSettlementModel model)
         {
-            var endpoint = "transactions/settle";
+            try
+            {
+                var endpoint = "transactions/settle";
 
-            var request = _httpRequests.BuildRequest(endpoint, HttpMethod.Post, model);
-            AddAuthenticationHeader(request);
+                var request = _httpRequests.BuildRequest(endpoint, HttpMethod.Post, model);
+                AddAuthenticationHeader(request);
 
-            var response = await _httpRequests.ExecuteRequest(request);
+                var response = await _httpRequests.ExecuteRequest(request);
 
-            return await ProcessResponse(response, async () => await SettlePaymentAsync(model));
+                return await ProcessResponse(response, async () => await SettlePaymentAsync(model));
+            }
+            catch (Exception exc)
+            {
+                return new SettlementResponseModel
+                {
+                    IsSuccess = false,
+                    Message = exc.Message,
+                };
+            }
         }
 
         private async Task Authenticate()

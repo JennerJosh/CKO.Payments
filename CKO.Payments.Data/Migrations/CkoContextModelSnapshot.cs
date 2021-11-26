@@ -70,7 +70,7 @@ namespace CKO.Payments.Data.Migrations
                     b.HasIndex("CustomerId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Card", b =>
@@ -107,7 +107,7 @@ namespace CKO.Payments.Data.Migrations
                     b.HasIndex("TransactionId")
                         .IsUnique();
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Customer", b =>
@@ -133,7 +133,7 @@ namespace CKO.Payments.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.LineItem", b =>
@@ -160,7 +160,7 @@ namespace CKO.Payments.Data.Migrations
 
                     b.HasIndex("TransactionId");
 
-                    b.ToTable("LineItems");
+                    b.ToTable("LineItems", (string)null);
                 });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Merchant", b =>
@@ -186,7 +186,7 @@ namespace CKO.Payments.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Merchants");
+                    b.ToTable("Merchants", (string)null);
                 });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Transaction", b =>
@@ -227,7 +227,7 @@ namespace CKO.Payments.Data.Migrations
 
                     b.HasIndex("MerchantId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("CKO.Payments.Data.DTO.Address", b =>
