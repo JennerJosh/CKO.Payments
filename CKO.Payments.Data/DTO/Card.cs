@@ -10,16 +10,16 @@ namespace CKO.Payments.Data.DTO
 
         public Guid TransactionId { get; set; }
 
-        [MaxLength(512)]
+        [MaxLength(120)]
         public string Name { get; set; }
 
-        [MaxLength(512)]
+        [MaxLength(30)]
         public string Number { get; set; }
 
-        [MaxLength(512)]
+        [MaxLength(4)]
         public string ExpiryMonth { get; set; }
 
-        [MaxLength(512)]
+        [MaxLength(8)]
         public string ExpiryYear { get; set; }
 
         public virtual Transaction Transaction { get; set; }
