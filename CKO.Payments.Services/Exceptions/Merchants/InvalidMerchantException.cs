@@ -2,7 +2,7 @@
 
 namespace CKO.Payments.BL.Exceptions.Merchants
 {
-    internal class InvalidMerchantException : Exception
+    public class InvalidMerchantException : Exception
     {
         public InvalidMerchantException()
         {

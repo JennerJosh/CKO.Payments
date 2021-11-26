@@ -1,4 +1,5 @@
 ﻿using CKO.Payments.DAL.Repositories.Interfaces;
+using CKO.Payments.Data;
 
 namespace CKO.Payments.DAL.Interfaces
 {

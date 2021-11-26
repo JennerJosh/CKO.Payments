@@ -5,6 +5,11 @@ namespace CKO.Payments.Data
 {
     public class CkoContext : DbContext
     {
+        public CkoContext()
+        {
+
+        }
+
         public CkoContext(DbContextOptions<CkoContext> options) : base(options)
         {
 
@@ -12,11 +17,11 @@ namespace CKO.Payments.Data
 
         #region DbSets
 
-        public DbSet<Merchant> Merchants { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Card> Cards { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<LineItem> LineItems { get; set; }
+        public virtual DbSet<Merchant> Merchants { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Card> Cards { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<LineItem> LineItems { get; set; }
 
         #endregion
     }

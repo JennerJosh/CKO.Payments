@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CKO.Payments.DAL.Repositories
 {
-    internal class BaseRepository<T> : IBaseRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly CkoContext _context;
         private readonly DbSet<T> _entities;

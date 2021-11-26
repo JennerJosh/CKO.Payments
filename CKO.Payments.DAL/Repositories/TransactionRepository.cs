@@ -6,7 +6,7 @@ using static CKO.Payments.DAL.Enums.Transactions;
 
 namespace CKO.Payments.DAL.Repositories
 {
-    internal class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
+    public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
     {
         public TransactionRepository(CkoContext context) : base(context)
         {

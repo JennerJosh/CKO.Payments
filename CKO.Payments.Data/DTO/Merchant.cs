@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CKO.Payments.Data.DTO
 {
     [Table("Merchants")]
-    public class Merchant
+    public partial class Merchant
     {
         public Guid Id { get; set; }
 
