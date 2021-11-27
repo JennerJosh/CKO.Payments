@@ -125,7 +125,8 @@ namespace CKO.Payments.BL.Services
         public async Task<PaymentSettlementResponseModel> SettleTransactionAsync(TransactionModel transaction)
         {
             // Get the transaction from the database
-            var dtoObject = _unitOfWork.TransactionRepository.GetTransaction(transaction.Id);
+            // Only approved transactions can be settled
+            var dtoObject = _unitOfWork.TransactionRepository.GetApprovedTransaction(transaction.Id);
 
             // Validate transaction record exists and the provided payment id belongs to this transaction
             if (dtoObject == null)

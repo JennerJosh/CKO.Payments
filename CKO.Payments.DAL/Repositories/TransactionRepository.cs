@@ -25,6 +25,13 @@ namespace CKO.Payments.DAL.Repositories
                 .FirstOrDefault(x => x.Id == id);
         }
 
+        public Transaction GetApprovedTransaction(Guid id)
+        {
+            return base.GetQuery()
+                .Where(x => x.Status == (int)TransactionStatus.Approved)
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public IEnumerable<Transaction> GetTransactionsByMerchant(Guid merchantId)
         {
             return base

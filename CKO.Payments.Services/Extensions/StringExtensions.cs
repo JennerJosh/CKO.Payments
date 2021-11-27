@@ -12,11 +12,16 @@ namespace CKO.Payments.BL.Extensions
         /// <returns>A masked string representation of the original string</returns>
         public static string Mask(this string value, char maskChar = '*', int unMaskedLength = 3)
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return value;
 
             var len = value.Length;
-            return new string(maskChar, len - unMaskedLength) + value.Substring(len - unMaskedLength);
+            var maskCount = len - unMaskedLength;
+
+            if (maskCount <= 0)
+                return value;
+
+            return new string(maskChar, maskCount) + value.Substring(maskCount);
         }
     }
 }

@@ -2,6 +2,9 @@
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using Xunit;
 
 namespace CKO.Payments.Tests.Services
@@ -11,12 +14,9 @@ namespace CKO.Payments.Tests.Services
         private MockRepository mockRepository;
 
 
-
         public SecurityServiceTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-
         }
 
         private SecurityService CreateService()
@@ -25,43 +25,40 @@ namespace CKO.Payments.Tests.Services
         }
 
         [Fact]
-        public void GenerateAuthToken_StateUnderTest_ExpectedBehavior()
+        public void GenerateAuthTokenAndReadToken_ValidModel_Success()
         {
             // Arrange
             var service = this.CreateService();
-            Guid merchantId = default(global::System.Guid);
-            string merchantName = null;
-            string merchantEmail = null;
-            string merchantSecret = null;
+
+            Guid merchantId = Guid.NewGuid();
+            string merchantName = "Test";
+            string merchantEmail = "Test@test.com";
+            string merchantSecret = "ABC";
 
             // Act
-            var result = service.GenerateAuthToken(
-                merchantId,
-                merchantName,
-                merchantEmail,
-                merchantSecret);
+            var writeResult = service.GenerateAuthToken(merchantId, merchantName, merchantEmail, merchantSecret);
 
-            // Assert
-            Assert.True(false);
-            this.mockRepository.VerifyAll();
-        }
+            // Read token
+            var readResult = service.IsTokenValid(writeResult, out SecurityToken token);
 
-        [Fact]
-        public void IsTokenValid_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var service = this.CreateService();
-            string token = null;
-            SecurityToken securityToken = null;
+            // Read data from token
+            var jwtToken = (JwtSecurityToken)token;
+            var id = Guid.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            var name = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
+            var email = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+            var secret = jwtToken.Claims.First(x => x.Type == "secret").Value;
 
-            // Act
-            var result = service.IsTokenValid(
-                token,
-                out securityToken);
 
-            // Assert
-            Assert.True(false);
-            this.mockRepository.VerifyAll();
+            // Write Asserts
+            Assert.NotNull(writeResult);
+            Assert.NotEqual(writeResult, string.Empty);
+
+            // Write Asserts
+            Assert.NotNull(token);
+            Assert.Equal(id, merchantId);
+            Assert.Equal(name, merchantName);
+            Assert.Equal(email, merchantEmail);
+            Assert.Equal(secret, merchantSecret);
         }
     }
 }
