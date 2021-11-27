@@ -99,3 +99,7 @@ Future change I would make is to save all data pretaining to card details or cus
 
 There are issues with this approach in that if the data provided is three characters or less then it would not be masked.
 
+### Unit Tests
+
+There is a potential flaw in a couple unit tests, because I am using Guids for Ids when I am testing a scenerio of an unknown id I am running the method Guid.NewGuid(); in this instance there is an extremely small chance that it would return a Guid that I have preset in my mocked data, in the event that this does happen the test will fail because it was able to find a match. I don't expect this to ever happen as the chances of a Guid being repeated is incredibly rare but there is the possibility.
+
