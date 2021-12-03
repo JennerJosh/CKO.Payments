@@ -12,7 +12,7 @@ namespace CKO.Payments.Data
 
         public CkoContext(DbContextOptions<CkoContext> options) : base(options)
         {
-
+            
         }
 
         #region DbSets

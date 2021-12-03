@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKO.Payments.Data", "CKO.Pa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKO.Payments", "CKO.Payments\CKO.Payments.csproj", "{0B0702D1-B762-4563-9343-6D51FCD0AAE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKO.Payments.Bank", "CKO.Payments.Bank\CKO.Payments.Bank.csproj", "{614C5430-61AD-4C26-A9C9-0218966B03C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKO.Payments.Bank", "CKO.Payments.Bank\CKO.Payments.Bank.csproj", "{614C5430-61AD-4C26-A9C9-0218966B03C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKO.Payments.Tests", "CKO.Payments.Tests\CKO.Payments.Tests.csproj", "{5F6B0205-0D5C-466D-BBD8-C2C599C043D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CKO.Payments.Tests", "CKO.Payments.Tests\CKO.Payments.Tests.csproj", "{5F6B0205-0D5C-466D-BBD8-C2C599C043D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{36026F72-88DE-4F55-86A1-74170D9642D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

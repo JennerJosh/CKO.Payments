@@ -74,7 +74,7 @@ namespace CKO.Payments.BL.Services
             _ = UpdateTransaction(transaction);
 
             // Convert model to bank processing model
-            var processingModel = new PaymentProcessingModel();
+            var processingModel = PaymentProcessingMapper.MapToPaymentProcessingModel(transaction);
 
             // Send request to Bank to process
             var bankResponse = await _bankClient.ProcessPaymentAsync(processingModel);
